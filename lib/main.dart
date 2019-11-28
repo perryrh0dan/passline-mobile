@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
               return BlocBuilder<AuthenticationBloc, AuthenticationState>(
                 builder: (context, state) {
                   if (state is Authenticated) {
-                    HomeScreen();
+                    return HomeScreen();
                   }
                   if (state is Unauthenticated) {
                     return Center(
