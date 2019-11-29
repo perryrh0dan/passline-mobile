@@ -21,10 +21,10 @@ class Items extends StatelessWidget {
             return ItemWidget(
               item: item,
               onTap: ()async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) {
-                    return ItemScreen(name: item.name);
-                  })
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => 
+                    ItemScreen(name: item.name)
+                  )
                 );
               }
             );
