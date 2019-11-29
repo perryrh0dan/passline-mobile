@@ -15,4 +15,11 @@ class FirebaseItemsRepository implements ItemsRepository {
           .toList();
     });
   }
+
+  @override
+  Stream<Item> item(String name) {
+    return itemCollection.document(name).snapshots().map((snapshot) {
+      return Item.fromEntity(ItemEntity.fromSnapshot(snapshot));
+    });
+  }
 }

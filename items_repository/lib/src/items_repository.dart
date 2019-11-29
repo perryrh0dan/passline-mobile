@@ -8,5 +8,7 @@ import 'package:items_repository/items_repository.dart';
 
 abstract class ItemsRepository {
   Stream<List<Item>> items();
+
+  Stream<Item> item(String name);
 }
 

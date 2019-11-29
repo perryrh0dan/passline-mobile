@@ -19,7 +19,7 @@ class Item {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Item && runtimeType == other.runtimeType && name == other.name;
+      other is Item && runtimeType == other.runtimeType && name == other.name && credentials == other.credentials;
 
   @override
   String toString() {

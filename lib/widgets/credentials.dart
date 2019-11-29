@@ -9,22 +9,27 @@ class Credentials extends StatelessWidget {
 
   const Credentials({Key key, this.name}) : super(key: key);
 
-    @override
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ItemsBloc, ItemsState>(builder: (context, state) {
-      final item = (state as ItemsLoaded)
-        .items
-        .firstWhere((item) => item.name == name, orElse: () => null);
+    return BlocProvider<ItemBloc>(builder: (context) {
+      return ItemBloc(
+        itemsRepository: FirebaseItemsRepository(),
+      )..add(LoadItem(name));
+    }, child: BlocBuilder<ItemBloc, ItemState>(builder: (context, state) {
+      if (state is ItemLoading) {
+        return Container();
+      } else if (state is ItemLoaded) {
+        final item = (state as ItemLoaded).item;
         return ListView.builder(
           itemCount: item.credentials.length,
           itemBuilder: (context, index) {
             final credential = item.credentials[index];
-            return CredentialWidget(
-              credential: credential
-            );
+            return CredentialWidget(credential: credential);
           },
         );
-    });
+      } else {
+        return Container();
+      }
+    }));
   }
-  
 }

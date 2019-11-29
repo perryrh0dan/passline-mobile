@@ -12,18 +12,11 @@ class ItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ItemsBloc, ItemsState>(
-      builder: (context, state) {
-        final item = (state as ItemsLoaded)
-            .items
-            .firstWhere((item) => item.name == name, orElse: () => null);
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(item.name), 
-          ),
-          body: Credentials(name: item.name),
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name),
+      ),
+      body: Credentials(name: name),
     );
   }
 }
