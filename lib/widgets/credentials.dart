@@ -19,7 +19,7 @@ class Credentials extends StatelessWidget {
       if (state is ItemLoading) {
         return Container();
       } else if (state is ItemLoaded) {
-        final item = (state as ItemLoaded).item;
+        final item = state.item;
         return ListView.builder(
           itemCount: item.credentials.length,
           itemBuilder: (context, index) {
