@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline/blocs/bloc.dart';
+import 'package:passline/screens/credential_screen.dart';
+import 'package:passline/widgets/dialog.dart';
 import 'package:passline/widgets/widgets.dart';
 
 class Credentials extends StatelessWidget {
@@ -19,12 +21,19 @@ class Credentials extends StatelessWidget {
       if (state is ItemLoading) {
         return Container();
       } else if (state is ItemLoaded) {
-        final item = (state as ItemLoaded).item;
+        final item = state.item;
         return ListView.builder(
           itemCount: item.credentials.length,
           itemBuilder: (context, index) {
             final credential = item.credentials[index];
-            return CredentialWidget(credential: credential);
+            return CredentialWidget(
+                credential: credential,
+                onTap: () async {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => CredentialScreen(
+                            credential: credential,
+                          )));
+                });
           },
         );
       } else {

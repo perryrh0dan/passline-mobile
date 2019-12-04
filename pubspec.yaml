@@ -19,6 +19,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_bloc: ^2.0.1
   equatable: ^0.6.0
+  password: ^1.0.0
+  encrypt: ^3.3.1
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/blocs/bloc.dart';
+import 'package:passline/blocs/password/password_bloc.dart';
 import 'package:passline/screens/screens.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
               )..add(LoadItems());
             },
           ),
+          BlocProvider<PasswordBloc>(builder: (context) {
+            return PasswordBloc();
+          },)
         ],
         child: MaterialApp(
           title: 'Passline',
