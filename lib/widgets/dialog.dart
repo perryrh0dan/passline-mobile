@@ -1,22 +1,10 @@
-import 'package:encrypt/encrypt.dart' as prefix0;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/blocs/password/password.dart';
-import 'package:password/password.dart';
-import 'package:encrypt/encrypt.dart';
 
-class FullScreenDialog extends StatefulWidget {
-  final PasswordBloc passwordBloc;
-
-  FullScreenDialog({this.passwordBloc}) : super();
-
-  @override
-  FullScreenDialogState createState() => new FullScreenDialogState();
-}
-
-class FullScreenDialogState extends State<FullScreenDialog> {
-  TextEditingController _password = new TextEditingController();
+class PasswordDialogState extends StatelessWidget {
+  final TextEditingController _password = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {

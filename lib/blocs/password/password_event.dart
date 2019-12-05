@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:items_repository/items_repository.dart';
 
 abstract class PasswordEvent extends Equatable {
   const PasswordEvent();

@@ -17,7 +17,7 @@ class CredentialScreen extends StatelessWidget {
     return BlocBuilder<PasswordBloc, PasswordState>(
       builder: (context, state) {
         if (state is Unauthenticated) {
-          return new FullScreenDialog();
+          return new PasswordDialogState();
         } else if (state is Authenticated) {
           return Scaffold(
               appBar: AppBar(
