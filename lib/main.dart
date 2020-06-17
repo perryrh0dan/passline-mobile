@@ -6,6 +6,7 @@ import 'package:passline/blocs/password/password_bloc.dart';
 import 'package:passline/screens/screens.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:config_repository/config_repository.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
             },
           ),
           BlocProvider<PasswordBloc>(builder: (context) {
-            return PasswordBloc();
+            return PasswordBloc(
+              configRepository: FirebaseConfigRepository(),
+            );
           },)
         ],
         child: MaterialApp(

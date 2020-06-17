@@ -14,13 +14,19 @@ dependencies:
     sdk: flutter
   items_repository:
     path: items_repository
+  config_repository:
+    path: config_repository
   user_repository:
     path: user_repository
   cupertino_icons: ^0.1.2
   flutter_bloc: ^2.0.1
   equatable: ^0.6.0
+  pbkdf2_dart: ^2.1.0
   password: ^1.0.0
+  pointycastle: ^1.0.2
   encrypt: ^3.3.1
+  password_hash: ^2.0.0
+  cryptography: ^1.4.1
 
 dev_dependencies:
   flutter_test:

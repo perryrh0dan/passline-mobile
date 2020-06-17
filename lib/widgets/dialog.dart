@@ -8,13 +8,11 @@ class PasswordDialogState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PasswordBloc passwordBloc = BlocProvider.of<PasswordBloc>(context);
-
     return BlocBuilder<PasswordBloc, PasswordState>(
       builder: (context, state) {
         return new Scaffold(
             appBar: new AppBar(
-              title: new Text("Add your top 3 skills"),
+              title: new Text("Enter master password"),
             ),
             body: new Padding(
               child: new ListView(
@@ -27,7 +25,7 @@ class PasswordDialogState extends StatelessWidget {
                       new Expanded(
                           child: new RaisedButton(
                         onPressed: () {
-                          passwordBloc.add(Authenticate(_password.text));
+                          BlocProvider.of<PasswordBloc>(context).add(Authenticate(_password.text));
                         },
                         child: new Text("Save"),
                       ))

@@ -9,15 +9,27 @@ abstract class PasswordState extends Equatable {
 }
 
 class Authenticated extends PasswordState {
-  final String password;
+  final String encryptionKey;
 
-  const Authenticated(this.password);
-
-  @override
-  List<Object> get props => [password];
+  const Authenticated(this.encryptionKey);
 
   @override
-  String toString() => 'Authenticated { password: $password }';
+  List<Object> get props => [encryptionKey];
+
+  @override
+  String toString() => 'Authenticated { encryptionKey: $encryptionKey }';
 }
+
+// class AuthenticationFailure extends PasswordState {
+//   final String error;
+
+//   const AuthenticationFailure({this.error});
+
+//   @override
+//   List<Object> get props => [error];
+
+//   @override
+//   String toString() => 'AuthenticationFailure { error: $error }';
+// }
 
 class Unauthenticated extends PasswordState {}
