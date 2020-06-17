@@ -13,44 +13,24 @@ class Items extends StatelessWidget {
       if (state is ItemsLoading) {
         return LoadingIndicator();
       } else if (state is ItemsLoaded) {
-        final items = state.items;
-        List<Item> filteredItems = state.items;
-
-        return Column(
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(15.0),
-                  hintText: 'Enter Url',
-              ),
-              onChanged: (query){
-                filteredItems = items.where((element) => 
-                  element.name.toLowerCase().contains(query.toLowerCase())
-                );
-              },
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.all(5.0),
-                itemCount: filteredItems.length,
-                itemBuilder: (context, index) {
-                  final item = filteredItems[index];
-                  return ItemWidget(
-                      item: item,
-                      onTap: () async {
-                        if (item.credentials.length == 1) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => CredentialScreen(
-                                  credential: item.credentials[0])));
-                        } else {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => ItemScreen(name: item.name)));
-                        }
-                      });
-                },
-              ),
-            ),
-          ],
+        return ListView.builder(
+          padding: EdgeInsets.all(5.0),
+          itemCount: state.items.length,
+          itemBuilder: (context, index) {
+            final item = state.items[index];
+            return ItemWidget(
+                item: item,
+                onTap: () async {
+                  if (item.credentials.length == 1) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) =>
+                            CredentialScreen(credential: item.credentials[0])));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => ItemScreen(name: item.name)));
+                  }
+                });
+          },
         );
       } else {
         return Container();
