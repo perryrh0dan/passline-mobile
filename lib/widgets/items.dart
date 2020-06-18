@@ -32,9 +32,9 @@ class Items extends StatelessWidget {
                 });
           },
         );
-      } else {
-        return Container();
-      }
+      } 
+
+      return Container();
     });
   }
 }

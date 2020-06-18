@@ -13,16 +13,11 @@ class ItemsLoading extends ItemsState {}
 class ItemsLoaded extends ItemsState {
   final List<Item> items;
 
-  final String query;
-  final List<Item> filteredItems;
-
-  const ItemsLoaded([this.items = const [], this.query = "", this.filteredItems = const []]);
+  const ItemsLoaded([this.items = const []]);
 
   @override
-  List<Object> get props => [items, query, filteredItems];
+  List<Object> get props => [items];
 
   @override
-  String toString() => 'ItemsLoaded { items: $items, filtereditems: $filteredItems }';
+  String toString() => 'ItemsLoaded { items: $items }';
 }
-
-class ItemsNotLoaded extends ItemsState {}

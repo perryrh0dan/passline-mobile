@@ -18,3 +18,12 @@ class ItemsUpdated extends ItemsEvent {
   @override
   List<Object> get props => [items];
 }
+
+class FilterItems extends ItemsEvent {
+  final String query;
+
+  const FilterItems(this.query);
+
+    @override
+  List<Object> get props => [query];
+}
