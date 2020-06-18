@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:items_repository/items_repository.dart';
 import 'package:passline/blocs/bloc.dart';
 import 'package:passline/screens/credential_screen.dart';
-import 'package:passline/widgets/dialog.dart';
 import 'package:passline/widgets/widgets.dart';
 
 class Credentials extends StatelessWidget {
@@ -13,11 +11,7 @@ class Credentials extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ItemBloc>(builder: (context) {
-      return ItemBloc(
-        itemsRepository: FirebaseItemsRepository(),
-      )..add(LoadItem(name));
-    }, child: BlocBuilder<ItemBloc, ItemState>(builder: (context, state) {
+    return BlocBuilder<ItemBloc, ItemState>(builder: (context, state) {
       if (state is ItemLoading) {
         return Container();
       } else if (state is ItemLoaded) {
@@ -39,6 +33,6 @@ class Credentials extends StatelessWidget {
       } else {
         return Container();
       }
-    }));
+    });
   }
 }

@@ -1,63 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/blocs/bloc.dart';
-import 'package:passline/blocs/password/password_bloc.dart';
-import 'package:passline/screens/screens.dart';
-import 'package:items_repository/items_repository.dart';
+import 'package:passline/common/common.dart';
+import 'package:passline/screens/home/home_page.dart';
+import 'package:passline/screens/login/login_page.dart';
+import 'package:passline/screens/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:config_repository/config_repository.dart';
+
+class SimpleBlocDelegate extends BlocDelegate {
+  @override
+  void onEvent(Bloc bloc, Object event) {
+    print(event);
+    super.onEvent(bloc, event);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    print(transition);
+    super.onTransition(bloc, transition);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stackTrace) {
+    print(error);
+    super.onError(bloc, error, stackTrace);
+  }
+}
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  runApp(MyApp());
+  final userRepository = FirebaseUserRepository();
+  runApp(BlocProvider<AuthenticationBloc>(
+    create: (context) {
+      return AuthenticationBloc(userRepository: userRepository)
+        ..add(AuthenticationStarted());
+    },
+    child:
+        App(userRepository: userRepository),
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
+  final UserRepository userRepository;
+
+  App({Key key, @required this.userRepository})
+      : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthenticationBloc>(
-            builder: (context) {
-              return AuthenticationBloc(
-                userRepository: FirebaseUserRepository(),
-              )..add(AppStarted());
+    return MaterialApp(
+      title: 'Passline',
+      routes: {
+        '/': (context) {
+          return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              if (state is Authenticated) {
+                return HomePage();
+              }
+              if (state is AuthenticationFailure || state is AuthenticationInitial) {
+                return LoginPage(
+                    userRepository: userRepository);
+              }
+              if (state is AuthenticationInProgress) {
+                return LoadingIndicator();
+              }
+              return SplashPage();
             },
-          ),
-          BlocProvider<ItemsBloc>(
-            builder: (context) {
-              return ItemsBloc(
-                itemsRepository: FirebaseItemsRepository(),
-              )..add(LoadItems());
-            },
-          ),
-          BlocProvider<PasswordBloc>(builder: (context) {
-            return PasswordBloc(
-              configRepository: FirebaseConfigRepository(),
-            );
-          },)
-        ],
-        child: MaterialApp(
-          title: 'Passline',
-          routes: {
-            '/': (context) {
-              return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) {
-                  if (state is Authenticated) {
-                    return HomeScreen();
-                  }
-                  if (state is Unauthenticated) {
-                    return Center(
-                      child: Text('Could not authenticate with Firestore'),
-                    );
-                  }
-                  return Center(child: CircularProgressIndicator());
-                },
-              );
-            }
-          },
-        ));
+          );
+        }
+      },
+    );
   }
 }

@@ -24,7 +24,7 @@ class ItemWidget extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Text(
                   item.name,
-                  style: Theme.of(context).textTheme.title,
+                  style: Theme.of(context).textTheme.headline6,
                 ),
               ),
             ),

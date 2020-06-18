@@ -19,7 +19,7 @@ dependencies:
   user_repository:
     path: user_repository
   cupertino_icons: ^0.1.2
-  flutter_bloc: ^2.0.1
+  flutter_bloc: ^4.0.1
   equatable: ^0.6.0
   pbkdf2_dart: ^2.1.0
   password: ^1.0.0

@@ -21,7 +21,7 @@ class CredentialWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Text(
               credential.username,
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
           ),
         ),
@@ -29,7 +29,7 @@ class CredentialWidget extends StatelessWidget {
           credential.password,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.subhead,
+          style: Theme.of(context).textTheme.subtitle1,
         ),
       ),
     );

@@ -4,7 +4,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:items_repository/items_repository.dart';
 import 'package:items_repository/src/entities/entities.dart';
 
 class ItemEntity extends Equatable {
