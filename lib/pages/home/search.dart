@@ -23,7 +23,34 @@ class ItemSearch extends SearchDelegate<Item> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {}
+  Widget buildResults(BuildContext context) {
+    return BlocBuilder<ItemsBloc, ItemsState>(
+      bloc: itemsBloc,
+      builder: (context, state) {
+        if (state is ItemsLoading) {
+          return LoadingIndicator();
+        }
+        if (state is ItemsLoaded) {
+          final suggestions = query.isEmpty
+              ? []
+              : state.items
+                  .where((element) =>
+                      element.name.toLowerCase().contains(query.toLowerCase()))
+                  .toList();
+
+          return ListView.builder(
+            itemBuilder: (context, index) => ListTile(
+              title: Text(suggestions[index].name),
+              onTap: () => close(context, suggestions[index]),
+            ),
+            itemCount: suggestions.length,
+          );
+        }
+
+        return Container();
+      },
+    );
+  }
 
   @override
   Widget buildSuggestions(BuildContext context) {
@@ -34,10 +61,13 @@ class ItemSearch extends SearchDelegate<Item> {
             return LoadingIndicator();
           }
           if (state is ItemsLoaded) {
-            final suggestions = state.items
-                .where((element) =>
-                    element.name.toLowerCase().contains(query.toLowerCase()))
-                .toList();
+            final suggestions = query.isEmpty
+                ? []
+                : state.items
+                    .where((element) => element.name
+                        .toLowerCase()
+                        .contains(query.toLowerCase()))
+                    .toList();
 
             return ListView.builder(
               itemBuilder: (context, index) => ListTile(

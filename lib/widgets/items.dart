@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/blocs/bloc.dart';
 import 'package:passline/common/common.dart';
-import 'package:passline/screens/credential_screen.dart';
-import 'package:passline/screens/item_screen.dart';
+import 'package:passline/pages/credential_screen.dart';
+import 'package:passline/pages/item_screen.dart';
 import 'package:passline/widgets/widgets.dart';
 
 class Items extends StatelessWidget {

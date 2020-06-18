@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline/blocs/items/items.dart';
-import 'package:passline/screens/credential_screen.dart';
-import 'package:passline/screens/home/search.dart';
-import 'package:passline/screens/item_screen.dart';
+import 'package:passline/pages/credential_screen.dart';
+import 'package:passline/pages/home/search.dart';
+import 'package:passline/pages/item_screen.dart';
 import 'package:passline/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/blocs/bloc.dart';
 import 'package:passline/common/common.dart';
-import 'package:passline/screens/home/home_page.dart';
-import 'package:passline/screens/login/login_page.dart';
-import 'package:passline/screens/splash/splash.dart';
+import 'package:passline/pages/home/home_page.dart';
+import 'package:passline/pages/login/login_page.dart';
+import 'package:passline/pages/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
