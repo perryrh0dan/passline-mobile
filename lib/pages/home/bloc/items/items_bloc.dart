@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:passline/blocs/items/items.dart';
 import 'package:items_repository/items_repository.dart';
+
+part 'items_event.dart';
+part 'items_state.dart';
 
 class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   final ItemsRepository _itemsRepository;

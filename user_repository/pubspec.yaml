@@ -9,3 +9,4 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_auth: ^0.16.1
+  flutter_secure_storage: ^3.3.3

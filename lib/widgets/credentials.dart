@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/blocs/bloc.dart';
-import 'package:passline/pages/credential_screen.dart';
+import 'package:passline/pages/credential/credential_page.dart';
+import 'package:passline/pages/item/bloc/item_bloc.dart';
 import 'package:passline/widgets/widgets.dart';
 
 class Credentials extends StatelessWidget {
@@ -24,7 +24,7 @@ class Credentials extends StatelessWidget {
                 credential: credential,
                 onTap: () async {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => CredentialScreen(
+                      builder: (_) => CredentialPage(
                             credential: credential,
                           )));
                 });

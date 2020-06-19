@@ -36,21 +36,42 @@ class _LoginFormState extends State<LoginForm> {
         builder: (context, state) {
           return Form(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Password'),
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      hintText: 'Enter your master password'
+                    ),
                     controller: _passwordController,
                     obscureText: true,
                   ),
-                  RaisedButton(
-                    onPressed: state is! LoginInProgress
-                        ? _onLoginButtonPressed
-                        : null,
-                    child: Text('Login'),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: RaisedButton(
+                      onPressed: state is! LoginInProgress
+                          ? _onLoginButtonPressed
+                          : null,
+                      child: Text('UNLOCK'),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  IconButton(
+                    iconSize: 50.0,
+                    icon: Icon(Icons.fingerprint),
+                    onPressed: () => BlocProvider.of<LoginBloc>(context)
+                        .add(BiometricLoginPressed()),
+                  ),
+                  SizedBox(
+                    height: 40.0,
                   ),
                   Container(
                     child: state is LoginInProgress

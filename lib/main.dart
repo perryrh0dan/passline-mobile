@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/blocs/bloc.dart';
+import 'package:passline/authentication/authentication_bloc.dart';
 import 'package:passline/common/common.dart';
 import 'package:passline/pages/home/home_page.dart';
 import 'package:passline/pages/login/login_page.dart';

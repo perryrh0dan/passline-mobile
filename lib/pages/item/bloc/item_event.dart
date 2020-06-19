@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:items_repository/items_repository.dart';
+part of 'item_bloc.dart';
 
 abstract class ItemEvent extends Equatable {
   const ItemEvent();

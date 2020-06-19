@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/blocs/authentication/authentication.dart';
+import 'package:passline/authentication/authentication_bloc.dart';
 import 'package:passline/crypt/crypt.dart';
 
-class CredentialScreen extends StatelessWidget {
+class CredentialPage extends StatelessWidget {
   final Credential credential;
 
-  CredentialScreen({Key key, @required this.credential}) : super(key: key);
+  CredentialPage({Key key, @required this.credential}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

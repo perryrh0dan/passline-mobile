@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/blocs/items/items.dart';
 import 'package:passline/common/common.dart';
+import 'package:passline/pages/home/bloc/items/items_bloc.dart';
 
 class ItemSearch extends SearchDelegate<Item> {
   final Bloc<ItemsEvent, ItemsState> itemsBloc;

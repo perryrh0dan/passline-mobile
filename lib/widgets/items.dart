@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/blocs/bloc.dart';
 import 'package:passline/common/common.dart';
-import 'package:passline/pages/credential_screen.dart';
-import 'package:passline/pages/item_screen.dart';
+import 'package:passline/pages/credential/credential_page.dart';
+import 'package:passline/pages/home/bloc/items/items_bloc.dart';
+import 'package:passline/pages/item/item_page.dart';
 import 'package:passline/widgets/widgets.dart';
 
 class Items extends StatelessWidget {
@@ -24,10 +24,10 @@ class Items extends StatelessWidget {
                   if (item.credentials.length == 1) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) =>
-                            CredentialScreen(credential: item.credentials[0])));
+                            CredentialPage(credential: item.credentials[0])));
                   } else {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => ItemScreen(name: item.name)));
+                        builder: (_) => ItemPage(name: item.name)));
                   }
                 });
           },
