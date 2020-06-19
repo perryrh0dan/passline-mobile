@@ -1,16 +1,19 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:user_repository/src/entities/entities.dart';
+import 'package:user_repository/src/models/models.dart';
 import 'package:user_repository/user_repository.dart';
 
 class FirebaseUserRepository implements UserRepository {
   final FirebaseAuth firebaseAuth;
-  final FlutterSecureStorage storage;
+  final configCollection = Firestore.instance.collection('config');
+  final FlutterSecureStorage storage = new FlutterSecureStorage();
 
   FirebaseUserRepository({FirebaseAuth firebaseAuth})
-      : firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        this.storage = new FlutterSecureStorage();
+      : firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   Future<bool> isAuthenticated() async {
     final currentUser = await firebaseAuth.currentUser();
@@ -19,6 +22,12 @@ class FirebaseUserRepository implements UserRepository {
 
   Future<void> authenticate() {
     return firebaseAuth.signInAnonymously();
+  }
+
+  Future<String> loadKey() async {
+    /// Load encrypted encryption key from firestore
+    var config = await configCollection.document('config').get();
+    return Config.fromEntity(ConfigEntity.fromSnapshot(config)).key;
   }
 
   Future<void> deleteKey() async {

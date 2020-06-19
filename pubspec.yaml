@@ -14,8 +14,6 @@ dependencies:
     sdk: flutter
   items_repository:
     path: items_repository
-  config_repository:
-    path: config_repository
   user_repository:
     path: user_repository
   cupertino_icons: ^0.1.2

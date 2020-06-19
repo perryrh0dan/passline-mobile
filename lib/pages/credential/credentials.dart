@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:passline/pages/credential/credential.dart';
 import 'package:passline/pages/credential/credential_page.dart';
 import 'package:passline/pages/item/bloc/item_bloc.dart';
-import 'package:passline/widgets/widgets.dart';
 
 class Credentials extends StatelessWidget {
   final String name;
@@ -16,7 +16,8 @@ class Credentials extends StatelessWidget {
         return Container();
       } else if (state is ItemLoaded) {
         final item = state.item;
-        return ListView.builder(
+        return ListView.separated(
+          padding: EdgeInsets.all(5.0),
           itemCount: item.credentials.length,
           itemBuilder: (context, index) {
             final credential = item.credentials[index];
@@ -28,6 +29,9 @@ class Credentials extends StatelessWidget {
                             credential: credential,
                           )));
                 });
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
           },
         );
       } else {

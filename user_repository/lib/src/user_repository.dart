@@ -3,6 +3,8 @@ abstract class UserRepository {
 
   Future<void> authenticate();
 
+  Future<String> loadKey();
+
   Future<void> deleteKey();
 
   Future<void> persistKey(List<int> encryptionKey);

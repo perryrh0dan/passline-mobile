@@ -2,35 +2,31 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:items_repository/items_repository.dart';
 
-class CredentialWidget extends StatelessWidget {
-  final Credential credential;
+class ItemWidget extends StatelessWidget {
+  final Item item;
   final GestureTapCallback onTap;
 
-  CredentialWidget({Key key, @required this.credential, @required this.onTap})
+  ItemWidget({Key key, @required this.item, @required this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__item_item_${credential.username}'),
+      key: Key('__item_item_${item.name}'),
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${credential.username}__heroTag',
+          tag: '${item.name}__heroTag',
           child: Container(
             width: MediaQuery.of(context).size.width,
             child: Text(
-              credential.username,
+              item.name,
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
         ),
-        subtitle: Text(
-          credential.password,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
+        trailing:
+            Icon(Icons.keyboard_arrow_right, size: 30.0),
       ),
     );
   }

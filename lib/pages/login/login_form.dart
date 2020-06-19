@@ -43,9 +43,8 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Enter your master password'
-                    ),
+                        labelText: 'Password',
+                        hintText: 'Enter your master password'),
                     controller: _passwordController,
                     obscureText: true,
                   ),

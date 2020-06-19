@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/common/common.dart';
 import 'package:passline/pages/credential/credential_page.dart';
 import 'package:passline/pages/home/bloc/items/items_bloc.dart';
+import 'package:passline/pages/home/item.dart';
 import 'package:passline/pages/item/item_page.dart';
-import 'package:passline/widgets/widgets.dart';
 
 class Items extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class Items extends StatelessWidget {
       if (state is ItemsLoading) {
         return LoadingIndicator();
       } else if (state is ItemsLoaded) {
-        return ListView.builder(
+        return ListView.separated(
           padding: EdgeInsets.all(5.0),
           itemCount: state.items.length,
           itemBuilder: (context, index) {
@@ -31,8 +31,11 @@ class Items extends StatelessWidget {
                   }
                 });
           },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
         );
-      } 
+      }
 
       return Container();
     });

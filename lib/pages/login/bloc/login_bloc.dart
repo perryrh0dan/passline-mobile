@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:config_repository/config_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -17,7 +16,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LocalAuthentication auth = LocalAuthentication();
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
-  final configRepository = FirebaseConfigRepository();
 
   LoginBloc({
     @required this.userRepository,
@@ -30,6 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
+    if (event is LoginStarted) {
+      yield* _mapStartedToState();
+    }
+
     if (event is LoginButtonPressed) {
       yield* _mapLoginButtonPressToState(event);
     }
@@ -39,7 +41,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> _mapLoginButtonPressToState(LoginButtonPressed event) async* {
+  Stream<LoginState> _mapStartedToState() async* {
+    final List<int> encryptionKey = await _biometricAuthentication();
+
+    if (encryptionKey != null) {
+      authenticationBloc
+          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
+      yield LoginInitial();
+    } else {
+      yield LoginInitial();
+    }
+  }
+
+  Stream<LoginState> _mapLoginButtonPressToState(
+      LoginButtonPressed event) async* {
     yield LoginInProgress();
 
     try {
@@ -49,7 +64,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
 
       // get encryption key
-      final encryptedEncryptionKey = await configRepository.key();
+      final encryptedEncryptionKey = await userRepository.loadKey();
       var pwKey = Crypt.getKey(event.password);
       var encryptionKey =
           await Crypt.aesGCMDecrypt(pwKey, encryptedEncryptionKey);
@@ -63,6 +78,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapBiometricButtonPressToState() async* {
+    final List<int> encryptionKey = await _biometricAuthentication();
+
+    if (encryptionKey != null) {
+      authenticationBloc
+          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
+      yield LoginInitial();
+    } else {
+      yield LoginFailure(error: 'Unable to load key');
+    }
+  }
+
+  Future<List<int>> _biometricAuthentication() async {
     final List<int> encryptionKey = await userRepository.getKey();
 
     if (encryptionKey != null) {
@@ -74,16 +101,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             stickyAuth: true);
       } on PlatformException catch (e) {
         print(e);
+        return null;
       }
+
       if (authenticated) {
-              authenticationBloc
-          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
-        yield LoginInitial();
-      } else {
-        yield LoginFailure(error: 'Unknown error');
+        return encryptionKey;
       }
-    } else {
-      yield LoginFailure(error: 'Unable to load key');
     }
+
+    return null;
   }
 }

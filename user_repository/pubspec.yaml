@@ -10,3 +10,6 @@ dependencies:
     sdk: flutter
   firebase_auth: ^0.16.1
   flutter_secure_storage: ^3.3.3
+  equatable: ^0.6.0
+  cloud_firestore: ^0.13.6
+  firebase_core: ^0.4.5
