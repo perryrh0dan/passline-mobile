@@ -5,7 +5,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:password_hash/password_hash.dart';
 
 class Crypt {
-  static List<int> getKey(String password) {
+  static List<int> passwordToKey(String password) {
     var generator = new PBKDF2(hashAlgorithm: cry.sha1);
     var hash = generator.generateKey(password, "This is the salt", 4096, 32);
 
@@ -29,7 +29,13 @@ class Crypt {
 
   static Future<String> decryptCredentials(
       List<int> encryptionKey, String encryptedPassword) async {
-    var decryptedPassword = await aesGCMDecrypt(encryptionKey, encryptedPassword);
+    var decryptedPassword =
+        await aesGCMDecrypt(encryptionKey, encryptedPassword);
     return String.fromCharCodes(decryptedPassword);
+  }
+
+  static Future<List<int>> decryptKey(
+      List<int> password, String encryptedEncryptionKey) {
+    return aesGCMDecrypt(password, encryptedEncryptionKey);
   }
 }

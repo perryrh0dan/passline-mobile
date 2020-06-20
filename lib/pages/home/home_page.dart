@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
 import 'package:passline/pages/add/add_page.dart';
 import 'package:passline/pages/credential/credential_page.dart';
 import 'package:passline/pages/home/bloc/items/items_bloc.dart';
@@ -43,6 +42,7 @@ class HomePage extends StatelessWidget {
             drawer: HomeDrawer(),
             body: Items(),
             floatingActionButton: FloatingActionButton(
+              backgroundColor: Theme.of(context).primaryColor,
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => AddPage()));

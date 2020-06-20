@@ -15,7 +15,7 @@ class HomeDrawer extends StatelessWidget {
           DrawerHeader(
             child: Text('Passline'),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           ListTile(

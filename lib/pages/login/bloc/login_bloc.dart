@@ -65,9 +65,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       // get encryption key
       final encryptedEncryptionKey = await userRepository.loadKey();
-      var pwKey = Crypt.getKey(event.password);
+      var pwKey = Crypt.passwordToKey(event.password);
       var encryptionKey =
-          await Crypt.aesGCMDecrypt(pwKey, encryptedEncryptionKey);
+          await Crypt.decryptKey(pwKey, encryptedEncryptionKey);
 
       authenticationBloc
           .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
