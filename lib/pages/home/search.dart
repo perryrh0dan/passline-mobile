@@ -5,6 +5,10 @@ import 'package:passline/common/common.dart';
 import 'package:passline/pages/home/bloc/items/items_bloc.dart';
 
 class ItemSearch extends SearchDelegate<Item> {
+  final Bloc<ItemsEvent, ItemsState> itemsBloc;
+
+  ItemSearch({@required this.itemsBloc});
+
   @override
   List<Widget> buildActions(BuildContext context) => null;
 
@@ -21,7 +25,7 @@ class ItemSearch extends SearchDelegate<Item> {
   @override
   Widget buildResults(BuildContext context) {
     return BlocBuilder<ItemsBloc, ItemsState>(
-      bloc: BlocProvider.of<ItemsBloc>(context),
+      bloc: this.itemsBloc,
       builder: (context, state) {
         if (state is ItemsLoading) {
           return LoadingIndicator();
@@ -51,7 +55,7 @@ class ItemSearch extends SearchDelegate<Item> {
   @override
   Widget buildSuggestions(BuildContext context) {
     return BlocBuilder<ItemsBloc, ItemsState>(
-        bloc: BlocProvider.of<ItemsBloc>(context),
+        bloc: this.itemsBloc,
         builder: (context, state) {
           if (state is ItemsLoading) {
             return LoadingIndicator();

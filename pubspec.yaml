@@ -1,7 +1,7 @@
 name: passline
 description: A new Flutter project.
 
-version: 1.0.0+1
+version: 0.1.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -18,11 +18,12 @@ dependencies:
     path: user_repository
   cupertino_icons: ^0.1.2
   flutter_bloc: ^4.0.1
-  equatable: ^0.6.0
+  equatable: ^1.2.0
   password_hash: ^2.0.0
   cryptography: ^1.4.1
   local_auth: ^0.6.2+3
+  package_info: ^0.4.1
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter 
+    sdk: flutter
