@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/pages/login/bloc/login_bloc.dart';
 
-class LoginForm extends StatefulWidget {
-  @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
+class LoginForm extends StatelessWidget {
   final _passwordController = TextEditingController();
 
   @override

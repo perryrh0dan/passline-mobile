@@ -50,12 +50,28 @@ void main() {
   );
 }
 
-class App extends StatelessWidget with WidgetsBindingObserver {
+class App extends StatefulWidget {
   final UserRepository userRepository;
 
-  App({Key key, @required this.userRepository}) : super(key: key);
+  const App({Key key, @required this.userRepository}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addObserver(this);
@@ -81,16 +97,16 @@ class App extends StatelessWidget with WidgetsBindingObserver {
     if (state is Authenticated) {
       return HomePage();
     }
-    return LoginPage(userRepository: userRepository);
+    return LoginPage(userRepository: widget.userRepository);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      print("resume");
     } else if (state == AppLifecycleState.inactive) {
-      print("inactive");
+      context.bloc<AuthenticationBloc>().add(AuthenticationLocked());
     } else if (state == AppLifecycleState.paused) {
+      context.bloc<AuthenticationBloc>().add(AuthenticationLocked());
     } else if (state == AppLifecycleState.detached) {
       print("detached");
     }

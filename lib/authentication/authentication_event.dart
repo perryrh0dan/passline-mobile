@@ -21,4 +21,6 @@ class AuthenticationLoggedIn extends AuthenticationEvent {
   String toString() => 'LoggedIn  { encryptionKey: $encryptionKey }';
 }
 
+class AuthenticationLocked extends AuthenticationEvent {}
+
 class AuthenticationLoggedOut extends AuthenticationEvent {}

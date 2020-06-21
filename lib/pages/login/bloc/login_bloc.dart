@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
@@ -29,7 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is LoginStarted) {
-      yield* _mapStartedToState();
+      yield* _mapStartedToState(event);
     }
 
     if (event is LoginButtonPressed) {
@@ -41,16 +42,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> _mapStartedToState() async* {
-    final List<int> encryptionKey = await _biometricAuthentication();
-
-    if (encryptionKey != null) {
-      authenticationBloc
-          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
-      yield LoginInitial();
-    } else {
-      yield LoginInitial();
-    }
+  Stream<LoginState> _mapStartedToState(LoginStarted event) async* {
+    yield LoginInitial();
   }
 
   Stream<LoginState> _mapLoginButtonPressToState(
@@ -66,8 +59,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // get encryption key
       final encryptedEncryptionKey = await userRepository.loadKey();
       var pwKey = Crypt.passwordToKey(event.password);
-      var encryptionKey =
-          await Crypt.decryptKey(pwKey, encryptedEncryptionKey);
+      var encryptionKey = await Crypt.decryptKey(pwKey, encryptedEncryptionKey);
 
       authenticationBloc
           .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));

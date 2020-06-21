@@ -8,9 +8,7 @@ import 'package:user_repository/user_repository.dart';
 class LoginPage extends StatelessWidget {
   final UserRepository userRepository;
 
-  LoginPage({Key key, @required this.userRepository})
-      : assert(userRepository != null),
-        super(key: key);
+  const LoginPage({Key key, @required this.userRepository}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

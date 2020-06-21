@@ -27,6 +27,9 @@ class AuthenticationBloc
     if (event is AuthenticationLoggedIn) {
       yield* _mapLoggedInToState(event);
     }
+    if (event is AuthenticationLocked) {
+      yield* _mapLockedToState();
+    }
     if (event is AuthenticationLoggedOut) {
       yield* _mapLoggedOutToState();
     }
@@ -40,6 +43,10 @@ class AuthenticationBloc
       AuthenticationLoggedIn event) async* {
     await userRepository.persistKey(event.encryptionKey);
     yield Authenticated(event.encryptionKey);
+  }
+
+  Stream<AuthenticationState> _mapLockedToState() async* {
+    yield AuthenticationInitial();
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
