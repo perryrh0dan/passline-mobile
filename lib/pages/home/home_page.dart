@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline/authentication/authentication_bloc.dart';
+import 'package:passline/common/common.dart';
+import 'package:passline/pages/about/about_page.dart';
 import 'package:passline/pages/add/add_page.dart';
 import 'package:passline/pages/credential/credential_page.dart';
-import 'package:passline/pages/home/bloc/items/items_bloc.dart';
-import 'package:passline/pages/home/drawer.dart';
-import 'package:passline/pages/home/items.dart';
+import 'package:passline/pages/home/bloc/home_bloc.dart';
+import 'package:passline/pages/home/item.dart';
 import 'package:passline/pages/home/search.dart';
 import 'package:passline/pages/item/item_page.dart';
+import 'package:passline/pages/settings/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -32,37 +34,16 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ItemsBloc>(
-      create: (context) => ItemsBloc(
+    return BlocProvider<HomeBloc>(
+      create: (context) => HomeBloc(
         itemsRepository: FirebaseItemsRepository(),
       )..add(LoadItems()),
       child: Builder(
         builder: (context) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text("Passline"),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () async {
-                    var item = await showSearch(
-                        context: context,
-                        delegate: ItemSearch(
-                            itemsBloc: BlocProvider.of<ItemsBloc>(context)));
-                    if (item != null && item.credentials.length == 1) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) =>
-                              CredentialPage(credential: item.credentials[0])));
-                    } else if (item != null) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => ItemPage(name: item.name)));
-                    }
-                  },
-                )
-              ],
-            ),
-            drawer: HomeDrawer(),
-            body: Items(),
+            appBar: _buildAppBar(context),
+            drawer: _buildDrawer(context),
+            body: _buildBody(),
             floatingActionButton: FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               onPressed: () {
@@ -74,6 +55,103 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text("Passline"),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () async {
+            var item = await showSearch(
+                context: context,
+                delegate:
+                    ItemSearch(homeBloc: BlocProvider.of<HomeBloc>(context)));
+            if (item != null && item.credentials.length == 1) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) =>
+                      CredentialPage(credential: item.credentials[0])));
+            } else if (item != null) {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => ItemPage(name: item.name)));
+            }
+          },
+        )
+      ],
+    );
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+      if (state is HomeLoading) {
+        return LoadingIndicator();
+      } else if (state is HomeLoaded) {
+        return ListView.separated(
+          padding: EdgeInsets.all(5.0),
+          itemCount: state.items.length,
+          itemBuilder: (context, index) {
+            final item = state.items[index];
+            return ItemWidget(
+                item: item,
+                onTap: () async {
+                  if (item.credentials.length == 1) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) =>
+                            CredentialPage(credential: item.credentials[0])));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => ItemPage(name: item.name)));
+                  }
+                });
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+        );
+      }
+
+      return Container();
+    });
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text('Passline'),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text("Settings"),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => SettingsPage()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text('Logout'),
+            onTap: () {
+              BlocProvider.of<AuthenticationBloc>(context)
+                ..add(AuthenticationLoggedOut());
+            },
+          ),
+          ListTile(
+              leading: Icon(Icons.info),
+              title: Text("About"),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => AboutPage()));
+              }),
+        ],
       ),
     );
   }
@@ -91,3 +169,5 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 }
+
+

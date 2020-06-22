@@ -43,6 +43,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapStartedToState(LoginStarted event) async* {
+    final List<int> encryptionKey = await _biometricAuthentication();
+
+    if (encryptionKey != null) {
+      authenticationBloc
+          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
+    }
     yield LoginInitial();
   }
 

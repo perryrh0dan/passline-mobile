@@ -4,38 +4,38 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:items_repository/items_repository.dart';
 
-part 'items_event.dart';
-part 'items_state.dart';
+part 'home_event.dart';
+part 'home_state.dart';
 
-class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ItemsRepository _itemsRepository;
   StreamSubscription _itemsSubscription;
 
-  ItemsBloc({@required ItemsRepository itemsRepository})
+  HomeBloc({@required ItemsRepository itemsRepository})
       : assert(itemsRepository != null),
         _itemsRepository = itemsRepository;
 
   @override
-  ItemsState get initialState => ItemsLoading();
+  HomeState get initialState => HomeLoading();
 
   @override
-  Stream<ItemsState> mapEventToState(ItemsEvent event) async* {
+  Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is LoadItems) {
       yield* _mapLoadItemsToState();
     } else if (event is ItemsUpdated) {
-      yield* _mapItemsUpdateToState(event);
+      yield* _mapItemsUpdatedToState(event);
     }
   }
 
-  Stream<ItemsState> _mapLoadItemsToState() async* {
+  Stream<HomeState> _mapLoadItemsToState() async* {
     _itemsSubscription?.cancel();
     _itemsSubscription = _itemsRepository.items().listen(
           (items) => add(ItemsUpdated(items)),
         );
   }
 
-  Stream<ItemsState> _mapItemsUpdateToState(ItemsUpdated event) async* {
-    yield ItemsLoaded(event.items);
+  Stream<HomeState> _mapItemsUpdatedToState(ItemsUpdated event) async* {
+    yield HomeLoaded(event.items);
   }
 
   @override

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline/common/common.dart';
-import 'package:passline/pages/home/bloc/items/items_bloc.dart';
+import 'package:passline/pages/home/bloc/home_bloc.dart';
 
 class ItemSearch extends SearchDelegate<Item> {
-  final Bloc<ItemsEvent, ItemsState> itemsBloc;
+  final Bloc<HomeEvent, HomeState> homeBloc;
 
-  ItemSearch({@required this.itemsBloc});
+  ItemSearch({@required this.homeBloc});
 
   @override
   List<Widget> buildActions(BuildContext context) => null;
@@ -24,13 +24,13 @@ class ItemSearch extends SearchDelegate<Item> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return BlocBuilder<ItemsBloc, ItemsState>(
-      bloc: this.itemsBloc,
+    return BlocBuilder<HomeBloc, HomeState>(
+      bloc: this.homeBloc,
       builder: (context, state) {
-        if (state is ItemsLoading) {
+        if (state is HomeLoading) {
           return LoadingIndicator();
         }
-        if (state is ItemsLoaded) {
+        if (state is HomeLoaded) {
           final suggestions = query.isEmpty
               ? []
               : state.items
@@ -54,13 +54,13 @@ class ItemSearch extends SearchDelegate<Item> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return BlocBuilder<ItemsBloc, ItemsState>(
-        bloc: this.itemsBloc,
+    return BlocBuilder<HomeBloc, HomeState>(
+        bloc: this.homeBloc,
         builder: (context, state) {
-          if (state is ItemsLoading) {
-            return LoadingIndicator();
+          if (state is HomeLoading) {
+            return Container();
           }
-          if (state is ItemsLoaded) {
+          if (state is HomeLoaded) {
             final suggestions = query.isEmpty
                 ? []
                 : state.items
