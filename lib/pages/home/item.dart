@@ -11,23 +11,19 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: Key('__item_item_${item.name}'),
-      child: ListTile(
-        onTap: onTap,
-        title: Hero(
-          tag: '${item.name}__heroTag',
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Text(
-              item.name,
-              style: Theme.of(context).textTheme.headline6,
-            ),
+    return ListTile(
+      onTap: onTap,
+      title: Hero(
+        tag: '${item.name}__heroTag',
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Text(
+            item.name,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ),
-        trailing:
-            Icon(Icons.keyboard_arrow_right, size: 30.0),
       ),
+      trailing: Icon(Icons.keyboard_arrow_right, size: 30.0),
     );
   }
 }
