@@ -21,12 +21,17 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   Future<bool> authenticate(String password) async {
+    await firebaseAuth.signInAnonymously();
     var hash = await this.storage.read(key: "password");
     if (hash == password) {
       return true;
     } else {
       return false;
     }
+  }
+
+  Future<void> authenticateWithoutPW() async {
+    return firebaseAuth.signInAnonymously();
   }
 
   Future<bool> isRegistered() async {

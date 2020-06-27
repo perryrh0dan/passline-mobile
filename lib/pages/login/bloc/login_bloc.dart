@@ -45,6 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final valid = await _biometricAuthentication();
 
     if (valid) {
+      await userRepository.authenticateWithoutPW();
       authenticationBloc.add(AuthenticationLoggedIn());
     }
     yield LoginInitial();
@@ -71,6 +72,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final bool valid = await _biometricAuthentication();
 
     if (valid) {
+      await userRepository.authenticateWithoutPW();
       authenticationBloc.add(AuthenticationLoggedIn());
       yield LoginInitial();
     } else {

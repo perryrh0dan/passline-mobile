@@ -13,6 +13,7 @@ class RegistrationForm extends StatelessWidget {
       BlocProvider.of<RegistrationBloc>(context).add(
         RegistrationButtonPressed(
           password: _passwordController.text,
+          passwordRepeat: _passwordRepeatController.text,
         ),
       );
     }

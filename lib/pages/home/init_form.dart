@@ -60,7 +60,7 @@ class InitForm extends StatelessWidget {
                     height: 40.0,
                   ),
                   Container(
-                    child: state is LoginInProgress
+                    child: state is SetupInProgress
                         ? CircularProgressIndicator()
                         : null,
                   ),

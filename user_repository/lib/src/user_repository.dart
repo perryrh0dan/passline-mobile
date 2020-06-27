@@ -1,6 +1,8 @@
 abstract class UserRepository {
   Future<bool> authenticate(String password);
 
+  Future<void> authenticateWithoutPW();
+
   Future<void> register(String password);
 
   Future<bool> isRegistered();
