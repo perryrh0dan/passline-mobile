@@ -7,6 +7,8 @@ import 'dart:async';
 import 'package:items_repository/items_repository.dart';
 
 abstract class ItemsRepository {
+  Future<void> addItem(Item item);
+
   Stream<List<Item>> items();
 
   Stream<Item> item(String name);

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/authentication/authentication_bloc.dart';
+import 'package:passline/common/common.dart';
 import 'package:passline/pages/home/home_page.dart';
 import 'package:passline/pages/login/login_page.dart';
+import 'package:passline/pages/registration/registration_page.dart';
 import 'package:passline/theme/bloc/theme_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -77,8 +79,13 @@ class App extends StatelessWidget {
   Widget _buildWithAuthentication(
       BuildContext context, AuthenticationState state) {
     if (state is Authenticated) {
-      return HomePage();
+      return HomePage(userRepository: userRepository);
+    } else if (state is Registered) {
+      return LoginPage(userRepository: userRepository);
+    } else if (state is NotRegistered) {
+      return RegistrationPage(userRepository: userRepository);
+    } else {
+      return LoadingIndicator();
     }
-    return LoginPage(userRepository: userRepository);
   }
 }

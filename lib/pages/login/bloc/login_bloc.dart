@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:passline/authentication/authentication_bloc.dart';
-import 'package:passline/crypt/crypt.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'login_event.dart';
@@ -43,11 +42,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapStartedToState(LoginStarted event) async* {
-    final List<int> encryptionKey = await _biometricAuthentication();
+    final valid = await _biometricAuthentication();
 
-    if (encryptionKey != null) {
-      authenticationBloc
-          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
+    if (valid) {
+      authenticationBloc.add(AuthenticationLoggedIn());
     }
     yield LoginInitial();
   }
@@ -56,57 +54,41 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginButtonPressed event) async* {
     yield LoginInProgress();
 
-    try {
-      final isSignedIn = await userRepository.isAuthenticated();
-      if (!isSignedIn) {
-        await userRepository.authenticate();
-      }
-
-      // get encryption key
-      final encryptedEncryptionKey = await userRepository.loadKey();
-      var pwKey = Crypt.passwordToKey(event.password);
-      var encryptionKey = await Crypt.decryptKey(pwKey, encryptedEncryptionKey);
-
-      authenticationBloc
-          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
-      yield LoginInitial();
-    } catch (error) {
+    var valid = await userRepository.authenticate(event.password);
+    if (!valid) {
       yield LoginFailure(error: "Wrong Password");
+    } else {
+      try {
+        authenticationBloc.add(AuthenticationLoggedIn());
+        yield LoginInitial();
+      } catch (error) {
+        yield LoginFailure(error: "Wrong Password");
+      }
     }
   }
 
   Stream<LoginState> _mapBiometricButtonPressToState() async* {
-    final List<int> encryptionKey = await _biometricAuthentication();
+    final bool valid = await _biometricAuthentication();
 
-    if (encryptionKey != null) {
-      authenticationBloc
-          .add(AuthenticationLoggedIn(encryptionKey: encryptionKey));
+    if (valid) {
+      authenticationBloc.add(AuthenticationLoggedIn());
       yield LoginInitial();
     } else {
       yield LoginFailure(error: 'Unable to load key');
     }
   }
 
-  Future<List<int>> _biometricAuthentication() async {
-    final List<int> encryptionKey = await userRepository.getKey();
-
-    if (encryptionKey != null) {
-      bool authenticated = false;
-      try {
-        authenticated = await auth.authenticateWithBiometrics(
-            localizedReason: 'Scan your fingerprint to authenticate',
-            useErrorDialogs: true,
-            stickyAuth: true);
-      } on PlatformException catch (e) {
-        print(e);
-        return null;
-      }
-
-      if (authenticated) {
-        return encryptionKey;
-      }
+  Future<bool> _biometricAuthentication() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticateWithBiometrics(
+          localizedReason: 'Scan your fingerprint to authenticate',
+          useErrorDialogs: true,
+          stickyAuth: true);
+    } on PlatformException catch (e) {
+      print(e);
+      return false;
     }
-
-    return null;
+    return authenticated;
   }
 }

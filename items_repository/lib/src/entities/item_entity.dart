@@ -42,6 +42,6 @@ class ItemEntity extends Equatable {
   }
 
   Map<String, Object> toDocument() {
-    return {"name": name};
+    return {"name": name, "credentials": credentials};
   }
 }

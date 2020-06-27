@@ -4,16 +4,20 @@ import 'package:items_repository/items_repository.dart';
 import 'package:passline/authentication/authentication_bloc.dart';
 import 'package:passline/common/common.dart';
 import 'package:passline/pages/about/about_page.dart';
-import 'package:passline/pages/add/add_page.dart';
+import 'package:passline/pages/addEdit/add_edit_page.dart';
 import 'package:passline/pages/credential/credential_page.dart';
 import 'package:passline/pages/home/bloc/home_bloc.dart';
+import 'package:passline/pages/home/init_form.dart';
 import 'package:passline/pages/home/item.dart';
 import 'package:passline/pages/home/search.dart';
 import 'package:passline/pages/item/item_page.dart';
 import 'package:passline/pages/settings/settings_page.dart';
+import 'package:user_repository/user_repository.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  final UserRepository userRepository;
+
+  const HomePage({Key key, @required this.userRepository}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -36,23 +40,52 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
       create: (context) => HomeBloc(
+        userRepository: this.widget.userRepository,
         itemsRepository: FirebaseItemsRepository(),
-      )..add(LoadItems()),
+      )..add(HomeStarted()),
       child: Builder(
         builder: (context) {
-          return Scaffold(
-            appBar: _buildAppBar(context),
-            drawer: _buildDrawer(context),
-            body: _buildBody(),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => AddPage()));
-              },
-              child: Icon(Icons.add),
-              tooltip: 'Add item',
-            ),
+          return BlocBuilder(
+            bloc: BlocProvider.of<HomeBloc>(context),
+            builder: (context, HomeState state) {
+              if (state is HomeLoaded) {
+                return Scaffold(
+                  appBar: _buildAppBar(context),
+                  drawer: _buildDrawer(context),
+                  body: _buildBody(),
+                  floatingActionButton: FloatingActionButton(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => AddEditPage(
+                            isEditing: true,
+                            onSave: (name, username, password) {
+                              var credential = Credential(username, password);
+                              var credentials = List<Credential>()
+                                ..add(credential);
+                              var item = Item(name, credentials);
+                              BlocProvider.of<HomeBloc>(context)
+                                  .add(AddItem(item));
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.add),
+                    tooltip: 'Add item',
+                  ),
+                );
+              } else if (state is HomeLoading) {
+                return Scaffold(
+                  body: LoadingIndicator(),
+                );
+              } else {
+                return Scaffold(
+                  body: InitForm(),
+                );
+              }
+            },
           );
         },
       ),
@@ -169,5 +202,3 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 }
-
-

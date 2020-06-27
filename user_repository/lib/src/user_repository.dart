@@ -1,7 +1,9 @@
 abstract class UserRepository {
-  Future<bool> isAuthenticated();
+  Future<bool> authenticate(String password);
 
-  Future<void> authenticate();
+  Future<void> register(String password);
+
+  Future<bool> isRegistered();
 
   Future<String> loadKey();
 

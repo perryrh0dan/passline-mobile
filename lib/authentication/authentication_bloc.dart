@@ -34,24 +34,36 @@ class AuthenticationBloc
     if (event is AuthenticationLoggedOut) {
       yield* _mapLoggedOutToState();
     }
+    if (event is AuthenticationRegister) {
+      yield* _mapRegisterToState(event);
+    }
   }
 
   Stream<AuthenticationState> _mapStartedToState() async* {
-    yield AuthenticationInitial();
+    if (await userRepository.isRegistered()) {
+      yield Registered();
+    } else {
+      yield NotRegistered();
+    }
   }
 
   Stream<AuthenticationState> _mapLoggedInToState(
       AuthenticationLoggedIn event) async* {
-    await userRepository.persistKey(event.encryptionKey);
-    yield Authenticated(event.encryptionKey);
+    yield Authenticated();
   }
 
   Stream<AuthenticationState> _mapLockedToState() async* {
-    yield AuthenticationInitial();
+    yield Registered();
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
     await userRepository.deleteKey();
-    yield AuthenticationInitial();
+    yield Registered();
+  }
+
+  Stream<AuthenticationState> _mapRegisterToState(
+      AuthenticationRegister event) async* {
+    await userRepository.register(event.password);
+    yield Registered();
   }
 }

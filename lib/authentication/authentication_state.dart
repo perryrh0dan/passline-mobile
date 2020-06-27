@@ -9,16 +9,10 @@ abstract class AuthenticationState extends Equatable {
 
 class AuthenticationInitial extends AuthenticationState {}
 
-class Authenticated extends AuthenticationState {
-  final List<int> encryptionKey;
+class NotRegistered extends AuthenticationState {}
 
-  const Authenticated(this.encryptionKey);
+class Registered extends AuthenticationState {}
 
-  @override
-  List<Object> get props => [encryptionKey];
-
-  @override
-  String toString() => 'Authenticated { encryptionKey: $encryptionKey }';
-}
+class Authenticated extends AuthenticationState {}
 
 class AuthenticationFailure extends AuthenticationState {}

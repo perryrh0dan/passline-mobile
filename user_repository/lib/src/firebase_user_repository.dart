@@ -20,8 +20,25 @@ class FirebaseUserRepository implements UserRepository {
     return currentUser != null;
   }
 
-  Future<void> authenticate() {
-    return firebaseAuth.signInAnonymously();
+  Future<bool> authenticate(String password) async {
+    var hash = await this.storage.read(key: "password");
+    if (hash == password) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> isRegistered() async {
+    if (await this.storage.read(key: "password") != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> register(String password) {
+    return this.storage.write(key: "password", value: password);
   }
 
   Future<String> loadKey() async {

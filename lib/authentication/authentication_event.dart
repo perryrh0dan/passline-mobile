@@ -9,18 +9,20 @@ abstract class AuthenticationEvent extends Equatable {
 
 class AuthenticationStarted extends AuthenticationEvent {}
 
-class AuthenticationLoggedIn extends AuthenticationEvent {
-  final List<int> encryptionKey;
-
-  const AuthenticationLoggedIn({@required this.encryptionKey});
-
-  @override
-  List<Object> get props => [encryptionKey];
-
-  @override
-  String toString() => 'LoggedIn  { encryptionKey: $encryptionKey }';
-}
+class AuthenticationLoggedIn extends AuthenticationEvent {}
 
 class AuthenticationLocked extends AuthenticationEvent {}
 
 class AuthenticationLoggedOut extends AuthenticationEvent {}
+
+class AuthenticationRegister extends AuthenticationEvent {
+  final String password;
+
+  const AuthenticationRegister({@required this.password});
+
+  @override
+  List<Object> get props => [password];
+
+  @override
+  String toString() => 'Register { password: $password }';
+}

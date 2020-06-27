@@ -1,24 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/pages/login/bloc/login_bloc.dart';
+import 'bloc/registration_bloc.dart';
 
-class LoginForm extends StatelessWidget {
+class RegistrationForm extends StatelessWidget {
   final _passwordController = TextEditingController();
+  final _passwordRepeatController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() {
-      BlocProvider.of<LoginBloc>(context).add(
-        LoginButtonPressed(
+    _onRegistrationButtonPressed() {
+      BlocProvider.of<RegistrationBloc>(context).add(
+        RegistrationButtonPressed(
           password: _passwordController.text,
         ),
       );
     }
 
-    return BlocListener<LoginBloc, LoginState>(
+    return BlocListener<RegistrationBloc, RegistrationState>(
       listener: (context, state) {
-        if (state is LoginFailure) {
+        if (state is RegistrationFailure) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               content: Text('${state.error}'),
@@ -27,7 +28,7 @@ class LoginForm extends StatelessWidget {
           );
         }
       },
-      child: BlocBuilder<LoginBloc, LoginState>(
+      child: BlocBuilder<RegistrationBloc, RegistrationState>(
         builder: (context, state) {
           return Form(
             child: Padding(
@@ -38,9 +39,19 @@ class LoginForm extends StatelessWidget {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter your password'),
+                      labelText: 'Password',
+                    ),
                     controller: _passwordController,
+                    obscureText: true,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Password (repeat)',
+                    ),
+                    controller: _passwordRepeatController,
                     obscureText: true,
                   ),
                   SizedBox(
@@ -49,29 +60,17 @@ class LoginForm extends StatelessWidget {
                   SizedBox(
                     width: 300,
                     child: RaisedButton(
-                      onPressed: state is! LoginInProgress
-                          ? _onLoginButtonPressed
+                      onPressed: state is! RegistrationInProgress
+                          ? _onRegistrationButtonPressed
                           : null,
-                      child: Text('UNLOCK'),
+                      child: Text('SET UP'),
                     ),
                   ),
                   SizedBox(
                     height: 40.0,
                   ),
-                  IconButton(
-                    iconSize: 50.0,
-                    icon: Icon(Icons.fingerprint),
-                    onPressed: () => state is! LoginInProgress
-                        ? BlocProvider.of<LoginBloc>(context).add(
-                            BiometricLoginPressed(),
-                          )
-                        : null,
-                  ),
-                  SizedBox(
-                    height: 40.0,
-                  ),
                   Container(
-                    child: state is LoginInProgress
+                    child: state is RegistrationInProgress
                         ? CircularProgressIndicator()
                         : null,
                   ),

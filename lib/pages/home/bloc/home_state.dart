@@ -7,6 +7,10 @@ abstract class HomeState extends Equatable {
   List<Object> get props => [];
 }
 
+class HomeNotInitialized extends HomeState {}
+
+class SetupInProgress extends HomeState {}
+
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
@@ -19,4 +23,16 @@ class HomeLoaded extends HomeState {
 
   @override
   String toString() => 'HomeLoaded { items: $items }';
+}
+
+class HomeSetupFailur extends HomeState {
+  final String error;
+
+  const HomeSetupFailur({@required this.error});
+
+  @override
+  List<Object> get props => [error];
+
+  @override
+  String toString() => 'SetupFailure { error: $error }';
 }

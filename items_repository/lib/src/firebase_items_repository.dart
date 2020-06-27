@@ -7,6 +7,21 @@ import 'entities/entities.dart';
 class FirebaseItemsRepository implements ItemsRepository {
   final itemCollection = Firestore.instance.collection('passline');
 
+  Future<void> addItem(Item item) async {
+    var snapshot = await itemCollection.document(item.name).get();
+    if (snapshot.exists) {
+      var existingItem = Item.fromEntity(ItemEntity.fromSnapshot(snapshot));
+      existingItem.credentials.add(item.credentials[0]);
+      return itemCollection
+          .document(item.name)
+          .setData(existingItem.toEntity().toDocument());
+    } else {
+      return itemCollection
+          .document(item.name)
+          .setData(item.toEntity().toDocument());
+    }
+  }
+
   @override
   Stream<List<Item>> items() {
     return itemCollection.snapshots().map((snapshot) {
