@@ -42,8 +42,9 @@ class FirebaseUserRepository implements UserRepository {
     }
   }
 
-  Future<void> register(String password) {
-    return this.storage.write(key: "password", value: password);
+  Future<void> register(String password) async {
+    await storage.write(key: "password", value: password);
+    return this.authenticateWithoutPW();
   }
 
   Future<String> loadKey() async {

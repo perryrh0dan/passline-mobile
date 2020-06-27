@@ -36,6 +36,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       RegistrationButtonPressed event) async* {
     yield RegistrationInProgress();
 
-    authenticationBloc.add(AuthenticationRegister(password: event.password));
+    if (event.password != event.passwordRepeat) {
+      yield RegistrationFailure(error: "Passwords do not match");
+    } else {
+      authenticationBloc.add(AuthenticationRegister(password: event.password));
+    }
   }
 }

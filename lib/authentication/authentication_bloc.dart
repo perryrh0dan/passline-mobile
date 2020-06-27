@@ -64,6 +64,6 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapRegisterToState(
       AuthenticationRegister event) async* {
     await userRepository.register(event.password);
-    yield Registered();
+    yield Authenticated();
   }
 }
