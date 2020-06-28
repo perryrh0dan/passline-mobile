@@ -16,6 +16,12 @@ class LoginForm extends StatelessWidget {
       );
     }
 
+    _onBiometricButtonPressed() {
+      BlocProvider.of<LoginBloc>(context).add(
+        BiometricLoginPressed(),
+      );
+    }
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
@@ -38,8 +44,7 @@ class LoginForm extends StatelessWidget {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter your password'),
+                        labelText: 'Password', hintText: 'Enter your password'),
                     controller: _passwordController,
                     obscureText: true,
                   ),
@@ -62,9 +67,7 @@ class LoginForm extends StatelessWidget {
                     iconSize: 50.0,
                     icon: Icon(Icons.fingerprint),
                     onPressed: () => state is! LoginInProgress
-                        ? BlocProvider.of<LoginBloc>(context).add(
-                            BiometricLoginPressed(),
-                          )
+                        ? _onBiometricButtonPressed()
                         : null,
                   ),
                   SizedBox(

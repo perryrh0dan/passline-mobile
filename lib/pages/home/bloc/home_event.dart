@@ -9,16 +9,6 @@ abstract class HomeEvent extends Equatable {
 
 class HomeStarted extends HomeEvent {}
 
-class SetupButtunPressed extends HomeEvent {
-  final String password;
-
-  @override
-  const SetupButtunPressed({@required this.password});
-
-  @override
-  List<Object> get props => [password];
-}
-
 class LoadItems extends HomeEvent {}
 
 class ItemsUpdated extends HomeEvent {

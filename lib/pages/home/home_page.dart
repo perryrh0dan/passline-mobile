@@ -7,17 +7,13 @@ import 'package:passline/pages/about/about_page.dart';
 import 'package:passline/pages/addEdit/add_edit_page.dart';
 import 'package:passline/pages/credential/credential_page.dart';
 import 'package:passline/pages/home/bloc/home_bloc.dart';
-import 'package:passline/pages/home/init_form.dart';
 import 'package:passline/pages/home/item.dart';
 import 'package:passline/pages/home/search.dart';
 import 'package:passline/pages/item/item_page.dart';
 import 'package:passline/pages/settings/settings_page.dart';
-import 'package:user_repository/user_repository.dart';
 
 class HomePage extends StatefulWidget {
-  final UserRepository userRepository;
-
-  const HomePage({Key key, @required this.userRepository}) : super(key: key);
+  const HomePage({Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -40,9 +36,8 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
       create: (context) => HomeBloc(
-        userRepository: this.widget.userRepository,
         itemsRepository: FirebaseItemsRepository(),
-      )..add(HomeStarted()),
+      )..add(LoadItems()),
       child: Builder(
         builder: (context) {
           return BlocBuilder(
@@ -76,13 +71,9 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
                     tooltip: 'Add item',
                   ),
                 );
-              } else if (state is HomeLoading) {
-                return Scaffold(
-                  body: LoadingIndicator(),
-                );
               } else {
                 return Scaffold(
-                  body: InitForm(),
+                  body: LoadingIndicator(),
                 );
               }
             },

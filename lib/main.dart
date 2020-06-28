@@ -5,6 +5,7 @@ import 'package:passline/common/common.dart';
 import 'package:passline/pages/home/home_page.dart';
 import 'package:passline/pages/login/login_page.dart';
 import 'package:passline/pages/registration/registration_page.dart';
+import 'package:passline/pages/setup/setup.dart';
 import 'package:passline/theme/bloc/theme_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -79,7 +80,18 @@ class App extends StatelessWidget {
   Widget _buildWithAuthentication(
       BuildContext context, AuthenticationState state) {
     if (state is Authenticated) {
-      return HomePage(userRepository: userRepository);
+      return FutureBuilder(
+        future: this.userRepository.hasKey(),
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData) {
+            return LoadingIndicator();
+          } else if (snapshot.data) {
+            return HomePage();
+          } else {
+            return SetupPage(userRepository: userRepository);
+          }
+        },
+      );
     } else if (state is Registered) {
       return LoginPage(userRepository: userRepository);
     } else if (state is NotRegistered) {

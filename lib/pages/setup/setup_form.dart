@@ -1,25 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/pages/home/bloc/home_bloc.dart';
-import 'package:passline/pages/login/bloc/login_bloc.dart';
+import 'package:passline/pages/home/home_page.dart';
+import 'package:passline/pages/setup/bloc/setup_bloc.dart';
 
-class InitForm extends StatelessWidget {
+class SetupForm extends StatelessWidget {
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() {
-      BlocProvider.of<HomeBloc>(context).add(
-        SetupButtunPressed(
+    _onSetupButtonPressed() {
+      BlocProvider.of<SetupBloc>(context).add(
+        SetupButtonPressed(
           password: _passwordController.text,
+        ),
+      );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => HomePage(),
         ),
       );
     }
 
-    return BlocListener<HomeBloc, HomeState>(
+    return BlocListener<SetupBloc, SetupState>(
       listener: (context, state) {
-        if (state is HomeSetupFailur) {
+        if (state is SetupFailure) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               content: Text('${state.error}'),
@@ -28,7 +33,7 @@ class InitForm extends StatelessWidget {
           );
         }
       },
-      child: BlocBuilder<HomeBloc, HomeState>(
+      child: BlocBuilder<SetupBloc, SetupState>(
         builder: (context, state) {
           return Form(
             child: Padding(
@@ -39,11 +44,16 @@ class InitForm extends StatelessWidget {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter your master password'),
+                      labelText: 'Password',
+                    ),
                     controller: _passwordController,
                     obscureText: true,
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      "Please enter your master password, that was used to encrypt the storage"),
                   SizedBox(
                     height: 50,
                   ),
@@ -51,9 +61,9 @@ class InitForm extends StatelessWidget {
                     width: 300,
                     child: RaisedButton(
                       onPressed: state is! SetupInProgress
-                          ? _onLoginButtonPressed
+                          ? _onSetupButtonPressed
                           : null,
-                      child: Text('SETUP'),
+                      child: Text('FINISH'),
                     ),
                   ),
                   SizedBox(
