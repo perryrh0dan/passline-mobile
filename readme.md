@@ -48,3 +48,11 @@ Passline mobile app
 
 1. `flutter build apk`
 2. `flutter install`
+
+## Team
+
+- Thomas Pöhlmann [(@perryrh0dan)](https://github.com/perryrh0dan)
+
+## License
+
+[MIT](https://github.com/perryrh0dan/passline-mobile/blob/master/license.md)
