@@ -15,11 +15,6 @@ class SetupForm extends StatelessWidget {
           password: _passwordController.text,
         ),
       );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => HomePage(),
-        ),
-      );
     }
 
     return BlocListener<SetupBloc, SetupState>(

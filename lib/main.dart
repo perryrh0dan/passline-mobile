@@ -80,24 +80,21 @@ class App extends StatelessWidget {
   Widget _buildWithAuthentication(
       BuildContext context, AuthenticationState state) {
     if (state is Authenticated) {
-      return FutureBuilder(
-        future: this.userRepository.hasKey(),
-        builder: (context, AsyncSnapshot<bool> snapshot) {
-          if (!snapshot.hasData) {
-            return LoadingIndicator();
-          } else if (snapshot.data) {
-            return HomePage();
-          } else {
-            return SetupPage(userRepository: userRepository);
-          }
-        },
+      return HomePage(
+        userRepository: userRepository,
       );
     } else if (state is Registered) {
-      return LoginPage(userRepository: userRepository);
+      return LoginPage(
+        userRepository: userRepository,
+      );
     } else if (state is NotRegistered) {
-      return RegistrationPage(userRepository: userRepository);
+      return RegistrationPage(
+        userRepository: userRepository,
+      );
     } else {
-      return LoadingIndicator();
+      return Scaffold(
+        body: LoadingIndicator(),
+      );
     }
   }
 }

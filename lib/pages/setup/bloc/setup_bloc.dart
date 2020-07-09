@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline/crypt/crypt.dart';
+import 'package:passline/pages/home/bloc/home_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'setup_event.dart';
@@ -9,8 +10,9 @@ part 'setup_state.dart';
 
 class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final UserRepository userRepository;
+  final HomeBloc homeBloc;
 
-  SetupBloc({@required this.userRepository});
+  SetupBloc({@required this.userRepository, @required this.homeBloc});
 
   @override
   SetupState get initialState => SetupInitial();
@@ -30,6 +32,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       var pwKey = Crypt.passwordToKey(event.password);
       var encryptionKey = await Crypt.decryptKey(pwKey, encryptedEncryptionKey);
       userRepository.persistKey(encryptionKey);
+      this.homeBloc.add(LoadItems());
     } catch (e) {
       yield SetupFailure(error: "Wrong master key");
     }

@@ -6,13 +6,45 @@
   Use Passline on your mobile phone
 </h4>
 
-# Todo 
+## Description
 
-[] Implement better routing
+Passline mobile app
 
-# Development
+## Highlights
 
-## Build
+- Biometric Authentication
+
+## Contents
+
+- [Description](#description)
+- [Highlights](#highlights)
+- [Contents](#contents)
+- [Demo](#demo)
+- [Install](#install)
+- [Usage](#usage)
+- [Development](#development)
+- [Team](#team)
+- [License](#license)
+
+## Demo
+
+<div align="center">
+  <img alt="demo" width="30%" src="./media/authentication.jpg">
+  <img alt="demo" width="30%" src="./media/home.jpg">
+  <img alt="demo" width="30%" src="./media/search.jpg">
+</div>
+
+## Install
+
+## Usage
+
+## Development
+
+### Todo 
+
+- Implement better routing [ ]
+
+### Build
 
 1. `flutter build apk`
 2. `flutter install`

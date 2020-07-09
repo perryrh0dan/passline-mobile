@@ -3,15 +3,17 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:items_repository/items_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final UserRepository userRepository;
   final ItemsRepository itemsRepository;
   StreamSubscription _itemsSubscription;
 
-  HomeBloc({@required this.itemsRepository});
+  HomeBloc({@required this.userRepository, @required this.itemsRepository});
 
   @override
   HomeState get initialState => HomeLoading();
@@ -30,7 +32,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _mapStartedToState() async* {
-    add(LoadItems());
+    if (await this.userRepository.hasKey()) {
+      add(LoadItems());
+    } else {
+      yield HomeRegister();
+    }
   }
 
   Stream<HomeState> _mapLoadItemsToState() async* {
