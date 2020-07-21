@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:passline/authentication/authentication_bloc.dart';
@@ -37,6 +38,7 @@ class CredentialBloc extends Bloc<CredentialEvent, CredentialState> {
     try {
       var password = await Crypt.decryptCredentials(
           encryptionKey, event.credential.password);
+      Clipboard.setData(ClipboardData(text: password));
       yield CredentialDecryptionSuccess(password: password);
     } catch (e) {
       yield CredentialDecryptionError(error: "Unable to decrypt credential");

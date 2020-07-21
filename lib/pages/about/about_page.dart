@@ -25,7 +25,6 @@ class AboutPage extends StatelessWidget {
               if (state is AboutLoaded) {
                 return Text(state.packageInfo.version);
               }
-
               return LoadingIndicator();
             },
           );

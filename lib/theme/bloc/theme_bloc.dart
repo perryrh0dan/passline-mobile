@@ -9,12 +9,12 @@ part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   @override
-  ThemeState get initialState => ThemeState(themeData: appThemeData[AppTheme.Light]);
+  ThemeState get initialState => ThemeState(theme: AppTheme.Light, themeData: appThemeData[AppTheme.Light]);
 
   @override
   Stream<ThemeState> mapEventToState(ThemeEvent event) async* {
     if (event is ThemeChanged) {
-      yield ThemeState(themeData: appThemeData[event.theme]);
+      yield ThemeState(theme: event.theme, themeData: appThemeData[event.theme]);
     }
   }
 }

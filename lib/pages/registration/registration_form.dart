@@ -56,6 +56,11 @@ class RegistrationForm extends StatelessWidget {
                     obscureText: true,
                   ),
                   SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      "Please enter an app password in order to protect your data from beeing accessed by third parties"),
+                  SizedBox(
                     height: 50,
                   ),
                   SizedBox(

@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:items_repository/items_repository.dart';
 
-typedef OnSaveCallback = Function(String name, String username, String password);
+typedef OnSaveCallback = Function(
+    String name, String username, String password);
 
 class AddEditPage extends StatefulWidget {
   final bool isEditing;
@@ -59,11 +60,13 @@ class _AddEditPageState extends State<AddEditPage> {
               ),
               TextFormField(
                 initialValue: isEditing ? '' : '',
-                maxLines: 10,
                 style: textTheme.subtitle1,
                 decoration: InputDecoration(
                   hintText: 'Enter your username',
                 ),
+                validator: (val) {
+                  return val.trim().isEmpty ? 'Please enter some text' : null;
+                },
                 onSaved: (value) => username = value,
               )
             ],

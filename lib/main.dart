@@ -5,7 +5,6 @@ import 'package:passline/common/common.dart';
 import 'package:passline/pages/home/home_page.dart';
 import 'package:passline/pages/login/login_page.dart';
 import 'package:passline/pages/registration/registration_page.dart';
-import 'package:passline/pages/setup/setup.dart';
 import 'package:passline/theme/bloc/theme_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 

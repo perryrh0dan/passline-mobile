@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/pages/home/home_page.dart';
 import 'package:passline/pages/setup/bloc/setup_bloc.dart';
 
 class SetupForm extends StatelessWidget {

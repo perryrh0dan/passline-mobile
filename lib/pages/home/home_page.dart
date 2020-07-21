@@ -64,14 +64,13 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => AddEditPage(
-                            isEditing: true,
+                            isEditing: false,
                             onSave: (name, username, password) {
                               var credential = Credential(username, password);
-                              var credentials = List<Credential>()
-                                ..add(credential);
-                              var item = Item(name, credentials);
+                              var item = Item(
+                                  name, List<Credential>()..add(credential));
                               BlocProvider.of<HomeBloc>(context)
-                                  .add(AddItem(item));
+                                  .add(AddItem(item: item));
                             },
                           ),
                         ),

@@ -23,7 +23,7 @@ class ItemsUpdated extends HomeEvent {
 class AddItem extends HomeEvent {
   final Item item;
 
-  const AddItem(this.item);
+  const AddItem({@required this.item});
 
   @override
   List<Object> get props => [item];
