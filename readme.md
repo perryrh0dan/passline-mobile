@@ -6,6 +6,10 @@
   Use Passline on your mobile phone
 </h4>
 
+<div align="center">
+  <img alt="logo" width="70%" src="media/logo.svg">
+</div>
+
 ## Description
 
 Passline mobile app
@@ -35,8 +39,6 @@ Passline mobile app
 </div>
 
 ## Install
-
-
 
 ## Usage
 
