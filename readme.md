@@ -36,18 +36,20 @@ Passline mobile app
 
 ## Install
 
+
+
 ## Usage
 
 ## Development
-
-### Todo 
-
-- Implement better routing [ ]
 
 ### Build
 
 1. `flutter build apk`
 2. `flutter install`
+
+### Icon
+
+Nice [tool](https://romannurik.github.io/AndroidAssetStudio/index.html) to create android icons.
 
 ## Team
 
