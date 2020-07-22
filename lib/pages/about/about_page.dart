@@ -9,6 +9,8 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _onContributersClick() {}
+
     return Scaffold(
       appBar: AppBar(
         title: Text("About"),
@@ -23,7 +25,30 @@ class AboutPage extends StatelessWidget {
             bloc: BlocProvider.of<AboutBloc>(context),
             builder: (BuildContext context, AboutState state) {
               if (state is AboutLoaded) {
-                return Text(state.packageInfo.version);
+                return ListView(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text("Name"),
+                      subtitle: Text(state.packageInfo.appName),
+                    ),
+                    ListTile(
+                      title: Text("Version"),
+                      subtitle: Text(state.packageInfo.version),
+                    ),
+                    ListTile(
+                      title: Text("Github"),
+                      subtitle: Text(
+                          "https://github.com/perryrh0dan/passline-mobile"),
+                    ),
+                    ListTile(
+                        title: Text("Developer"),
+                        subtitle: Text("Thomas Pöhlmann")),
+                    ListTile(
+                      title: Text("Contributers"),
+                      onTap: _onContributersClick,
+                    )
+                  ],
+                );
               }
               return LoadingIndicator();
             },

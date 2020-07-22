@@ -10,9 +10,9 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _onThemeSwitchToggle(bool value) {
-      BlocProvider.of<ThemeBloc>(context).add(
-        value ? ThemeChanged(theme: AppTheme.Dark) : ThemeChanged(theme: AppTheme.Light)
-      );
+      BlocProvider.of<ThemeBloc>(context).add(value
+          ? ThemeChanged(theme: AppTheme.Dark)
+          : ThemeChanged(theme: AppTheme.Light));
     }
 
     return Scaffold(
@@ -22,17 +22,17 @@ class SettingsPage extends StatelessWidget {
       body: BlocBuilder(
         bloc: BlocProvider.of<ThemeBloc>(context),
         builder: (context, ThemeState state) {
-          return Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Switch(value: state.theme == AppTheme.Light ? false : true, onChanged: _onThemeSwitchToggle)
-              ],
-            ),
+          return Column(
+            children: <Widget>[
+              SwitchListTile(
+                title: Text("Enable Dark Theme"),
+                value: state.theme == AppTheme.Light ? false : true,
+                onChanged: _onThemeSwitchToggle,
+              )
+            ],
           );
         },
-        ),
+      ),
     );
   }
 }
