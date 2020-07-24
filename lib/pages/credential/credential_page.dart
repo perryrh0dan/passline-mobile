@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
-import 'package:passline/crypt/crypt.dart';
-import 'package:passline/pages/credential/bloc/credential_bloc.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/crypt/crypt.dart';
+import 'package:passline_mobile/pages/credential/bloc/credential_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 class CredentialPage extends StatelessWidget {

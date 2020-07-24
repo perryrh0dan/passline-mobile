@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'login_event.dart';
@@ -21,10 +21,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     @required this.userRepository,
     @required this.authenticationBloc,
   })  : assert(userRepository != null),
-        assert(authenticationBloc != null);
-
-  @override
-  LoginState get initialState => LoginInitial();
+        assert(authenticationBloc != null), super(LoginInitial());
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {

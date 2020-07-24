@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/theme/app_themes.dart';
-import 'package:passline/theme/bloc/theme_bloc.dart';
+import 'package:passline_mobile/theme/app_themes.dart';
+import 'package:passline_mobile/theme/bloc/theme_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage({Key key}) : super(key: key);
@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
         title: Text("Settings"),
       ),
       body: BlocBuilder(
-        bloc: BlocProvider.of<ThemeBloc>(context),
+        cubit: BlocProvider.of<ThemeBloc>(context),
         builder: (context, ThemeState state) {
           return Column(
             children: <Widget>[

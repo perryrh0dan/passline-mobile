@@ -13,10 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ItemsRepository itemsRepository;
   StreamSubscription _itemsSubscription;
 
-  HomeBloc({@required this.userRepository, @required this.itemsRepository});
-
-  @override
-  HomeState get initialState => HomeLoading();
+  HomeBloc({@required this.userRepository, @required this.itemsRepository}) : super(HomeLoading());
 
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {

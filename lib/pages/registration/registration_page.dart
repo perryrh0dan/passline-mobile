@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
-import 'package:passline/pages/registration/bloc/registration_bloc.dart';
-import 'package:passline/pages/registration/registration_form.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/pages/registration/bloc/registration_bloc.dart';
+import 'package:passline_mobile/pages/registration/registration_form.dart';
 import 'package:user_repository/user_repository.dart';
 
 class RegistrationPage extends StatelessWidget {

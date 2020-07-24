@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:meta/meta.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
-import 'package:passline/crypt/crypt.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/crypt/crypt.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'credential_event.dart';
@@ -20,10 +20,7 @@ class CredentialBloc extends Bloc<CredentialEvent, CredentialState> {
     @required this.userRepository,
     @required this.authenticationBloc,
   })  : assert(userRepository != null),
-        assert(authenticationBloc != null);
-
-  @override
-  CredentialState get initialState => CredentialInitial();
+        assert(authenticationBloc != null), super(CredentialInitial());
 
   @override
   Stream<CredentialState> mapEventToState(CredentialEvent event) async* {

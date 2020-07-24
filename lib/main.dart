@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
-import 'package:passline/common/common.dart';
-import 'package:passline/pages/home/home_page.dart';
-import 'package:passline/pages/login/login_page.dart';
-import 'package:passline/pages/registration/registration_page.dart';
-import 'package:passline/settings/settings_bloc.dart';
-import 'package:passline/theme/bloc/theme_bloc.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/common/common.dart';
+import 'package:passline_mobile/pages/home/home_page.dart';
+import 'package:passline_mobile/pages/login/login_page.dart';
+import 'package:passline_mobile/pages/registration/registration_page.dart';
+import 'package:passline_mobile/settings/settings_bloc.dart';
+import 'package:passline_mobile/theme/bloc/theme_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
-class SimpleBlocDelegate extends BlocDelegate {
+class SimpleBlocDelegate extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object event) {
     print(event);
@@ -23,15 +23,15 @@ class SimpleBlocDelegate extends BlocDelegate {
   }
 
   @override
-  void onError(Bloc bloc, Object error, StackTrace stackTrace) {
+  void onError(Cubit cubit, Object error, StackTrace stackTrace) {
     print(error);
-    super.onError(bloc, error, stackTrace);
+    super.onError(cubit, error, stackTrace);
   }
 }
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  Bloc.observer = SimpleBlocDelegate();
   final userRepository = FirebaseUserRepository();
   runApp(
     MultiBlocProvider(

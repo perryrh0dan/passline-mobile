@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:passline/theme/app_themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'settings_event.dart';
@@ -14,10 +13,7 @@ class Settings {
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState>{
 
-  SettingsBloc();
-
-  @override
-  SettingsState get initialState => SettingsLoading();
+  SettingsBloc() : super(SettingsLoading());
 
   @override
   Stream<SettingsState> mapEventToState(

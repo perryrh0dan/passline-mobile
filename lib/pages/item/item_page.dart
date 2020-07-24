@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/pages/credential/credentials.dart';
-import 'package:passline/pages/item/bloc/item_bloc.dart';
+import 'package:passline_mobile/pages/credential/credentials.dart';
+import 'package:passline_mobile/pages/item/bloc/item_bloc.dart';
 
 class ItemPage extends StatelessWidget {
   final String name;
