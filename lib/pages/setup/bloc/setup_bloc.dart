@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/crypt/crypt.dart';
-import 'package:passline/pages/home/bloc/home_bloc.dart';
+import 'package:passline_mobile/crypt/crypt.dart';
+import 'package:passline_mobile/pages/home/bloc/home_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'setup_event.dart';
@@ -12,10 +12,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final UserRepository userRepository;
   final HomeBloc homeBloc;
 
-  SetupBloc({@required this.userRepository, @required this.homeBloc});
-
-  @override
-  SetupState get initialState => SetupInitial();
+  SetupBloc({@required this.userRepository, @required this.homeBloc}) : super(SetupInitial());
 
   @override
   Stream<SetupState> mapEventToState(SetupEvent event) async* {

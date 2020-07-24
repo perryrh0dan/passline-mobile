@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'registration_event.dart';
@@ -20,10 +20,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     @required this.userRepository,
     @required this.authenticationBloc,
   })  : assert(userRepository != null),
-        assert(authenticationBloc != null);
-
-  @override
-  RegistrationState get initialState => RegistrationInitial();
+        assert(authenticationBloc != null), super(RegistrationInitial());
 
   @override
   Stream<RegistrationState> mapEventToState(RegistrationEvent event) async* {

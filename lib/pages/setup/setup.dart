@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/pages/home/bloc/home_bloc.dart';
-import 'package:passline/pages/setup/bloc/setup_bloc.dart';
-import 'package:passline/pages/setup/setup_form.dart';
+import 'package:passline_mobile/pages/home/bloc/home_bloc.dart';
+import 'package:passline_mobile/pages/setup/bloc/setup_bloc.dart';
+import 'package:passline_mobile/pages/setup/setup_form.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SetupPage extends StatelessWidget {

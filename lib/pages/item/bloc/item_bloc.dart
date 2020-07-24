@@ -13,10 +13,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
   ItemBloc({@required ItemsRepository itemsRepository})
       : assert(itemsRepository != null),
-        _itemsRepository = itemsRepository;
-
-  @override
-  ItemState get initialState => ItemLoading();
+        _itemsRepository = itemsRepository, super(ItemLoading());
 
   @override
   Stream<ItemState> mapEventToState(ItemEvent event) async* {

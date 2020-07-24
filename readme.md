@@ -6,6 +6,10 @@
   Use Passline on your mobile phone
 </h4>
 
+<div align="center">
+  <img alt="logo" width="70%" src="media/logo.svg">
+</div>
+
 ## Description
 
 Passline mobile app
@@ -40,14 +44,14 @@ Passline mobile app
 
 ## Development
 
-### Todo 
-
-- Implement better routing [ ]
-
 ### Build
 
 1. `flutter build apk`
 2. `flutter install`
+
+### Icon
+
+Nice [tool](https://romannurik.github.io/AndroidAssetStudio/index.html) to create android icons.
 
 ## Team
 

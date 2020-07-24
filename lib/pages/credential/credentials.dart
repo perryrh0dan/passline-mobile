@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/pages/credential/credential.dart';
-import 'package:passline/pages/credential/credential_page.dart';
-import 'package:passline/pages/item/bloc/item_bloc.dart';
+import 'package:passline_mobile/pages/credential/credential.dart';
+import 'package:passline_mobile/pages/credential/credential_page.dart';
+import 'package:passline_mobile/pages/item/bloc/item_bloc.dart';
 
 class Credentials extends StatelessWidget {
   final String name;

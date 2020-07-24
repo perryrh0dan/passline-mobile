@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/common/common.dart';
-import 'package:passline/pages/home/bloc/home_bloc.dart';
+import 'package:passline_mobile/common/common.dart';
+import 'package:passline_mobile/pages/home/bloc/home_bloc.dart';
 
 class ItemSearch extends SearchDelegate<Item> {
   final Bloc<HomeEvent, HomeState> homeBloc;
@@ -25,7 +25,7 @@ class ItemSearch extends SearchDelegate<Item> {
   @override
   Widget buildResults(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-      bloc: this.homeBloc,
+      cubit: this.homeBloc,
       builder: (context, state) {
         if (state is HomeLoading) {
           return LoadingIndicator();
@@ -55,7 +55,7 @@ class ItemSearch extends SearchDelegate<Item> {
   @override
   Widget buildSuggestions(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-        bloc: this.homeBloc,
+        cubit: this.homeBloc,
         builder: (context, state) {
           if (state is HomeLoading) {
             return Container();

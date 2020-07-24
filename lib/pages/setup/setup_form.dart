@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passline/pages/setup/bloc/setup_bloc.dart';
+import 'package:passline_mobile/pages/setup/bloc/setup_bloc.dart';
 
 class SetupForm extends StatelessWidget {
   final _passwordController = TextEditingController();
@@ -38,7 +38,7 @@ class SetupForm extends StatelessWidget {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: 'Master Password',
                     ),
                     controller: _passwordController,
                     obscureText: true,

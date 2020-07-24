@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:passline/authentication/authentication_bloc.dart';
-import 'package:passline/common/common.dart';
-import 'package:passline/pages/about/about_page.dart';
-import 'package:passline/pages/addEdit/add_edit_page.dart';
-import 'package:passline/pages/credential/credential_page.dart';
-import 'package:passline/pages/home/bloc/home_bloc.dart';
-import 'package:passline/pages/home/item.dart';
-import 'package:passline/pages/home/search.dart';
-import 'package:passline/pages/item/item_page.dart';
-import 'package:passline/pages/settings/settings_page.dart';
-import 'package:passline/pages/setup/setup.dart';
+import 'package:passline_mobile/authentication/authentication_bloc.dart';
+import 'package:passline_mobile/common/common.dart';
+import 'package:passline_mobile/pages/about/about_page.dart';
+import 'package:passline_mobile/pages/addEdit/add_edit_page.dart';
+import 'package:passline_mobile/pages/credential/credential_page.dart';
+import 'package:passline_mobile/pages/home/bloc/home_bloc.dart';
+import 'package:passline_mobile/pages/home/item.dart';
+import 'package:passline_mobile/pages/home/search.dart';
+import 'package:passline_mobile/pages/item/item_page.dart';
+import 'package:passline_mobile/pages/settings/settings_page.dart';
+import 'package:passline_mobile/pages/setup/setup.dart';
 import 'package:user_repository/user_repository.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,6 +38,21 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    _onItemClick() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => AddEditPage(
+            isEditing: false,
+            onSave: (name, username, password) {
+              var credential = Credential(username, password);
+              var item = Item(name, List<Credential>()..add(credential));
+              BlocProvider.of<HomeBloc>(context).add(AddItem(item: item));
+            },
+          ),
+        ),
+      );
+    }
+
     return BlocProvider<HomeBloc>(
       create: (context) => HomeBloc(
         userRepository: this.widget.userRepository,
@@ -46,7 +61,7 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
       child: Builder(
         builder: (context) {
           return BlocBuilder(
-            bloc: BlocProvider.of<HomeBloc>(context),
+            cubit: BlocProvider.of<HomeBloc>(context),
             builder: (context, HomeState state) {
               if (state is HomeRegister) {
                 return SetupPage(
@@ -60,22 +75,7 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
                   body: _buildBody(),
                   floatingActionButton: FloatingActionButton(
                     backgroundColor: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => AddEditPage(
-                            isEditing: false,
-                            onSave: (name, username, password) {
-                              var credential = Credential(username, password);
-                              var item = Item(
-                                  name, List<Credential>()..add(credential));
-                              BlocProvider.of<HomeBloc>(context)
-                                  .add(AddItem(item: item));
-                            },
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: _onItemClick,
                     child: Icon(Icons.add),
                     tooltip: 'Add item',
                   ),
@@ -128,17 +128,18 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
           itemBuilder: (context, index) {
             final item = state.items[index];
             return ItemWidget(
-                item: item,
-                onTap: () async {
-                  if (item.credentials.length == 1) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) =>
-                            CredentialPage(credential: item.credentials[0])));
-                  } else {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => ItemPage(name: item.name)));
-                  }
-                });
+              item: item,
+              onTap: () async {
+                if (item.credentials.length == 1) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) =>
+                          CredentialPage(credential: item.credentials[0])));
+                } else {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => ItemPage(name: item.name)));
+                }
+              },
+            );
           },
           separatorBuilder: (context, index) {
             return Divider();
