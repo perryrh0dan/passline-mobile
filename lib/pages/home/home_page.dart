@@ -4,7 +4,7 @@ import 'package:items_repository/items_repository.dart';
 import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:passline_mobile/common/common.dart';
 import 'package:passline_mobile/pages/about/about_page.dart';
-import 'package:passline_mobile/pages/addEdit/add_edit_page.dart';
+import 'package:passline_mobile/pages/addEdit/addEdit_page.dart';
 import 'package:passline_mobile/pages/credential/credential_page.dart';
 import 'package:passline_mobile/pages/home/bloc/home_bloc.dart';
 import 'package:passline_mobile/pages/home/item.dart';

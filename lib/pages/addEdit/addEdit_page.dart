@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:items_repository/items_repository.dart';
+import 'package:passline_mobile/crypt/pwgen.dart';
 
 typedef OnSaveCallback = Function(
     String name, String username, String password);
@@ -28,11 +29,21 @@ class _AddEditPageState extends State<AddEditPage> {
   String username;
   String password;
 
+  _AddEditPageState() {
+    this.password = PwGen.generate(20);
+  }
+
   bool get isEditing => widget.isEditing;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    void _onSliderChange(double value) {
+      this.setState(() {
+        password = PwGen.generate(value.round());
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +79,36 @@ class _AddEditPageState extends State<AddEditPage> {
                   return val.trim().isEmpty ? 'Please enter some text' : null;
                 },
                 onSaved: (value) => username = value,
-              )
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Password length"),
+              Slider(
+                label: "${this.password.length}",
+                value: this.password.length.toDouble(),
+                min: 6,
+                max: 30,
+                divisions: 24,
+                onChanged: _onSliderChange,
+              ),
+              new Container(
+                decoration: new BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  border: new Border.all(
+                    color: Colors.black,
+                    width: 1.0,
+                  ),
+                ),
+                child: new TextField(
+                  textAlign: TextAlign.center,
+                  decoration: new InputDecoration(
+                    hintText: this.password,
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
