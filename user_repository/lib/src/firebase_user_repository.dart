@@ -22,10 +22,14 @@ class FirebaseUserRepository implements UserRepository {
 
   Future<bool> authenticate(String password) async {
     await firebaseAuth.signInAnonymously();
-    var hash = await this.storage.read(key: "password");
-    if (hash == password) {
-      return true;
-    } else {
+    try {
+      var hash = await this.storage.read(key: "password");
+      if (hash == password) {
+        return true;
+      } else {
+        return false;
+      } 
+    } catch (e) {
       return false;
     }
   }
@@ -35,9 +39,13 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   Future<bool> isRegistered() async {
-    if (await this.storage.read(key: "password") != null) {
-      return true;
-    } else {
+    try {
+      if (await this.storage.read(key: "password") != null) {
+        return true;
+      } else {
+        return false;
+      } 
+    } catch (e) {
       return false;
     }
   }
@@ -67,19 +75,27 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   Future<List<int>> getKey() async {
-    var encryptionKey = await storage.read(key: "encryptionKey");
-    if (encryptionKey == null) {
+    try {
+      var encryptionKey = await storage.read(key: "encryptionKey");
+      if (encryptionKey == null) {
+        return null;
+      }
+      return Base64Decoder().convert(encryptionKey);
+    } catch (e) {
       return null;
     }
-    return Base64Decoder().convert(encryptionKey);
   }
 
   Future<bool> hasKey() async {
     /// read from keystore/keychain
-    var encryptionKey = await storage.read(key: "encryptionKey");
-    if (encryptionKey != null) {
-      return true;
+    try {
+      var encryptionKey = await storage.read(key: "encryptionKey"); 
+      if (encryptionKey != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
-    return false;
   }
 }

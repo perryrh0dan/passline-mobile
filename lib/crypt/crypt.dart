@@ -55,8 +55,12 @@ class Crypt {
     var encryptedText =
         await cipher.encrypt(cipherText, secretKey: secretKey, nonce: nonce);
 
+    var password = new List<int>();
+    password.addAll(values);
+    password.addAll(encryptedText);
+
     // base64 encode encryptedText
-    return base64.encode(encryptedText);
+    return base64.encode(password);
   }
 
   static Future<String> decryptCredentials(

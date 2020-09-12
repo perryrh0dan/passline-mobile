@@ -29,7 +29,7 @@ class Credential {
 
   @override
   String toString() {
-    return 'Credential{username: $username, password: $password}';
+    return 'Credential{Username: $username, Password: $password}';
   }
 
   CredentialEntity toEntity() {

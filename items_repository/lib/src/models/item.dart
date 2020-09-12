@@ -23,7 +23,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item{name: $name}';
+    return 'Item{Name: $name}';
   }
 
   ItemEntity toEntity() {

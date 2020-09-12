@@ -41,7 +41,7 @@ class AuthenticationBloc
       yield Registered();
     } else {
       yield NotRegistered();
-    }
+    } 
   }
 
   Stream<AuthenticationState> _mapLoggedInToState(

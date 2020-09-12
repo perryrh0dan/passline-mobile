@@ -42,6 +42,7 @@ class ItemEntity extends Equatable {
   }
 
   Map<String, Object> toDocument() {
-    return {"name": name, "credentials": credentials};
+    List<Map<String, Object>> credentials = this.credentials.map((e) => e.toDocument()).toList();
+    return {"Name": name, "Credentials": credentials};
   }
 }

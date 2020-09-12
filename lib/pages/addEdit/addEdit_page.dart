@@ -10,12 +10,14 @@ class AddEditPage extends StatefulWidget {
   final bool isEditing;
   final OnSaveCallback onSave;
   final Item item;
+  final Credential credential;
 
   AddEditPage({
     Key key,
     @required this.onSave,
     @required this.isEditing,
     this.item,
+    this.credential,
   }) : super(key: key);
 
   @override
@@ -58,7 +60,7 @@ class _AddEditPageState extends State<AddEditPage> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: isEditing ? '' : '',
+                initialValue: isEditing ?  this.widget.item.name: '',
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 decoration: InputDecoration(
@@ -70,7 +72,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 onSaved: (value) => name = value,
               ),
               TextFormField(
-                initialValue: isEditing ? '' : '',
+                initialValue: isEditing ? this.widget.credential.username : '',
                 style: textTheme.subtitle1,
                 decoration: InputDecoration(
                   hintText: 'Enter your username',

@@ -7,8 +7,6 @@ import 'package:passline_mobile/theme/app_themes.dart';
 import 'package:passline_mobile/theme/bloc/theme_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
-  final _defautlUsernameController = TextEditingController();
-
   SettingsPage({Key key}) : super(key: key);
 
   @override
@@ -16,7 +14,7 @@ class SettingsPage extends StatelessWidget {
     _onThemeSwitchToggle(bool value) {
       BlocProvider.of<ThemeBloc>(context).add(value
           ? ThemeChanged(theme: AppTheme.Dark)
-          : ThemeChanged(theme: AppTheme.Light));
+          : ThemeChanged(theme: AppTheme.Light)); 
     }
 
     return Scaffold(
@@ -41,7 +39,7 @@ class SettingsPage extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Default username',
                       ),
-                      controller: TextEditingController()..text = state.settings.defaultUsername,
+                      controller: TextEditingController()..text = state.settings.defaultUsername
                     );
                   } else {
                     return LoadingIndicator();

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:passline_mobile/common/common.dart';
+import 'package:passline_mobile/crypt/crypt.dart';
 import 'package:passline_mobile/pages/about/about_page.dart';
 import 'package:passline_mobile/pages/addEdit/addEdit_page.dart';
 import 'package:passline_mobile/pages/credential/credential_page.dart';
@@ -38,15 +39,19 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    _onItemClick() {
+    _onAddButtonPressed(BuildContext context) {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => AddEditPage(
             isEditing: false,
-            onSave: (name, username, password) {
-              var credential = Credential(username, password);
+            onSave: (name, username, password) async {
+              var encryptionKey = await this.widget.userRepository.getKey();
+              var encryptedPassword =
+                  await Crypt.aesGCMEncrypt(encryptionKey, password);
+              var credential = Credential(username, encryptedPassword);
               var item = Item(name, List<Credential>()..add(credential));
               BlocProvider.of<HomeBloc>(context).add(AddItem(item: item));
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
           ),
         ),
@@ -75,7 +80,7 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
                   body: _buildBody(),
                   floatingActionButton: FloatingActionButton(
                     backgroundColor: Theme.of(context).primaryColor,
-                    onPressed: _onItemClick,
+                    onPressed: () => _onAddButtonPressed(context),
                     child: Icon(Icons.add),
                     tooltip: 'Add item',
                   ),

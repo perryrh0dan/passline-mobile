@@ -38,8 +38,8 @@ class CredentialEntity extends Equatable {
 
   Map<String, Object> toDocument() {
     return {
-      "username": username,
-      "password": password
+      "Username": username,
+      "Password": password
     };
   }
 }

@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:passline_mobile/crypt/crypt.dart';
+import 'package:passline_mobile/pages/addEdit/addEdit_page.dart';
 import 'package:passline_mobile/pages/credential/bloc/credential_bloc.dart';
+import 'package:passline_mobile/pages/item/bloc/item_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 class CredentialPage extends StatelessWidget {
@@ -14,6 +16,22 @@ class CredentialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _onEditButtonPressed(BuildContext context) {
+      ItemState state = BlocProvider.of<ItemBloc>(context).state;
+      if (state is ItemLoaded) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AddEditPage(
+              isEditing: true,
+              onSave: (name, username, password) async {},
+              item: state.item,
+              credential: this.credential
+            ),
+          ),
+        );
+      }
+    }
+
     return BlocProvider(
       create: (context) {
         return CredentialBloc(
@@ -27,7 +45,7 @@ class CredentialPage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.edit),
-              onPressed: () {},
+              onPressed: () => _onEditButtonPressed(context),
             ),
           ],
         ),
@@ -47,10 +65,18 @@ class CredentialPage extends StatelessWidget {
             builder: (context, state) {
               if (state is CredentialDecryptionSuccess) {
                 return SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(state.password),
-                  ),
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text("Username"),
+                        subtitle: Text(credential.username),
+                      ),
+                      ListTile(
+                        title: Text("Password"),
+                        subtitle: Text(state.password),
+                      )
+                    ],
+                  )
                 );
               } else {
                 return Container();
