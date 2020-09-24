@@ -5,7 +5,7 @@ import 'package:items_repository/items_repository.dart';
 import 'entities/entities.dart';
 
 class FirebaseItemsRepository implements ItemsRepository {
-  final itemCollection = Firestore.instance.collection('passline');
+  final itemCollection = FirebaseFirestore.instance.collection('passline');
 
   Future<void> addItem(Item item) async {
     var snapshot = await itemCollection.document(item.name).get();

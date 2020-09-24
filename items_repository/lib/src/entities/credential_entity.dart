@@ -30,9 +30,11 @@ class CredentialEntity extends Equatable {
   }
 
   static CredentialEntity fromSnapshot(DocumentSnapshot snap) {
+    var data = snap.data();
+
     return CredentialEntity(
-      snap.data['Username'],
-      snap.data['Password'],
+      data['Username'],
+      data['Password'],
     );
   }
 

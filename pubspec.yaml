@@ -16,6 +16,7 @@ dependencies:
     path: items_repository
   user_repository:
     path: user_repository
+  firebase_core: ^0.5.0
   cupertino_icons: ^0.1.2
   flutter_bloc: ^6.0.0
   equatable: ^1.2.0

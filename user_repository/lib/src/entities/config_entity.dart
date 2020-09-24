@@ -22,13 +22,13 @@ class ConfigEntity extends Equatable {
 
   static ConfigEntity fromJson(Map<dynamic, dynamic> json) {
     return ConfigEntity(
-      json["Key"] as String,
+      json['Key'] as String,
     );
   }
 
   static ConfigEntity fromSnapshot(DocumentSnapshot snap) {
     return ConfigEntity(
-      snap.data['Key'],
+      snap.data()['Key'],
     );
   }
 
