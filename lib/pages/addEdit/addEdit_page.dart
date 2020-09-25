@@ -25,17 +25,32 @@ class AddEditPage extends StatefulWidget {
 }
 
 class _AddEditPageState extends State<AddEditPage> {
+  static final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey<ScaffoldState>();
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String name;
   String username;
   String password;
+  bool symbols = true;
+  bool numbs = true;
+  bool characs = true;
+
+  SnackBar errorSnackbar = SnackBar(
+    content: new Text('One option has to be checked'),
+    duration: new Duration(seconds: 2),
+    backgroundColor: Colors.red,
+  );
 
   _AddEditPageState() {
-    this.password = PwGen.generate(20);
+    this.password = PwGen.generate(20, symbols, numbs, characs);
   }
 
   bool get isEditing => widget.isEditing;
+
+  void showErrorSnackbar() {
+    _scaffoldKey.currentState.showSnackBar(errorSnackbar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +58,45 @@ class _AddEditPageState extends State<AddEditPage> {
 
     void _onSliderChange(double value) {
       this.setState(() {
-        password = PwGen.generate(value.round());
+        password = PwGen.generate(value.round(), symbols, numbs, characs);
+      });
+    }
+
+    void _onSymbolsChange(bool newValue) {
+      if (!newValue && !numbs && !characs) {
+        showErrorSnackbar();
+        return;
+      }
+      this.setState(() {
+        symbols = newValue;
+        password = PwGen.generate(password.length, symbols, numbs, characs);
+      });
+    }
+
+    void _onNumbsChange(bool newValue) {
+      if (!newValue && !characs && !symbols) {
+        showErrorSnackbar();
+        return;
+      }
+      this.setState(() {
+        numbs = newValue;
+        password = PwGen.generate(password.length, symbols, numbs, characs);
+      });
+    }
+
+    void _onCharacsChange(bool newValue) {
+      if (!newValue && !numbs && !symbols) {
+        showErrorSnackbar();
+        return;
+      }
+      this.setState(() {
+        characs = newValue;
+        password = PwGen.generate(password.length, symbols, numbs, characs);
       });
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           isEditing ? 'Edit Item' : 'Add Item',
@@ -60,7 +109,7 @@ class _AddEditPageState extends State<AddEditPage> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: isEditing ?  this.widget.item.name: '',
+                initialValue: isEditing ? this.widget.item.name : '',
                 autofocus: !isEditing,
                 style: textTheme.headline5,
                 decoration: InputDecoration(
@@ -85,6 +134,19 @@ class _AddEditPageState extends State<AddEditPage> {
               SizedBox(
                 height: 20,
               ),
+              Container(),
+              CheckboxListTile(
+                  title: Text("Use characters"),
+                  value: this.characs,
+                  onChanged: _onCharacsChange),
+              CheckboxListTile(
+                  title: Text("Use numbers"),
+                  value: this.numbs,
+                  onChanged: _onNumbsChange),
+              CheckboxListTile(
+                  title: Text("Use symbols"),
+                  value: this.symbols,
+                  onChanged: _onSymbolsChange),
               Text("Password length"),
               Slider(
                 label: "${this.password.length}",
@@ -94,6 +156,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 divisions: 24,
                 onChanged: _onSliderChange,
               ),
+              Text("Password preview"),
               new Container(
                 decoration: new BoxDecoration(
                   shape: BoxShape.rectangle,
@@ -104,6 +167,7 @@ class _AddEditPageState extends State<AddEditPage> {
                   ),
                 ),
                 child: new TextField(
+                  readOnly: true,
                   textAlign: TextAlign.center,
                   decoration: new InputDecoration(
                     hintText: this.password,
