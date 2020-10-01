@@ -30,7 +30,7 @@ class ItemEntity extends Equatable {
   }
 
   static ItemEntity fromSnapshot(DocumentSnapshot snap) {
-    List<dynamic> list = snap.data['Credentials'];
+    List<dynamic> list = snap.data()['Credentials'];
     List<CredentialEntity> credentials = new List<CredentialEntity>();
     for (var i = 0; i < list.length; i++) {
       Map<dynamic, dynamic> map = list[i];
@@ -38,7 +38,7 @@ class ItemEntity extends Equatable {
       credentials.add(credential);
     }
 
-    return ItemEntity(snap.data['Name'], credentials);
+    return ItemEntity(snap.data()['Name'], credentials);
   }
 
   Map<String, Object> toDocument() {
