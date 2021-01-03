@@ -14,12 +14,14 @@ class AddEditBloc extends Bloc<AddEditEvent, AddEditState> {
   Stream<AddEditState> mapEventToState(
     AddEditEvent event,
   ) async* {
-    if (event is AddEditPasswordLength) {
-      yield* _mapPasswordLengthToState(event);
+    if (event is PasswordLengthChanged) {
+      yield state.copyWith(length: event.length);
+    } else if (event is CharactersSetChanged) {
+      yield state.copyWith(characters: event.characters);
+    } else if (event is NumbersSetChanged) {
+      yield state.copyWith(numbers: event.numbers);
+    } else if (event is SymbolsSetChanged) {
+      yield state.copyWith(symbols: event.symbols);
     }
-  }
-
-  Stream<AddEditState>_mapPasswordLengthToState(AddEditPasswordLength event) async* {
-    yield AddEditState(length: event.length);
   }
 }

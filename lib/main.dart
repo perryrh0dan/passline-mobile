@@ -34,7 +34,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // TODO check if async main is okay
-  await Firebase.initializeApp();
+  var options = FirebaseOptions(
+    apiKey: "AIzaSyBCVckhzRrmyskxsRIHv7M9e7zOvt53N6c",
+    appId: "1:386145949994:android:5ce085e3a3225e6922e653",
+    messagingSenderId: 'passline-mobile',
+    projectId: "paine-3ab6f",
+  );
+
+  await Firebase.initializeApp(name: "Passline", options: options);
 
   Bloc.observer = SimpleBlocDelegate();
   final userRepository = FirebaseUserRepository();
