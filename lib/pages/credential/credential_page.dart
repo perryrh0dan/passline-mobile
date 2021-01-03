@@ -22,11 +22,10 @@ class CredentialPage extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => AddEditPage(
-              isEditing: true,
-              onSave: (name, username, password) async {},
-              item: state.item,
-              credential: this.credential
-            ),
+                isEditing: true,
+                onSave: (name, username, password) async {},
+                item: state.item,
+                credential: this.credential),
           ),
         );
       }
@@ -65,19 +64,18 @@ class CredentialPage extends StatelessWidget {
             builder: (context, state) {
               if (state is CredentialDecryptionSuccess) {
                 return SafeArea(
-                  child: ListView(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text("Username"),
-                        subtitle: Text(credential.username),
-                      ),
-                      ListTile(
-                        title: Text("Password"),
-                        subtitle: Text(state.password),
-                      )
-                    ],
-                  )
-                );
+                    child: ListView(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text("Username"),
+                      subtitle: Text(credential.username),
+                    ),
+                    ListTile(
+                      title: Text("Password"),
+                      subtitle: Text(state.password),
+                    )
+                  ],
+                ));
               } else {
                 return Container();
               }

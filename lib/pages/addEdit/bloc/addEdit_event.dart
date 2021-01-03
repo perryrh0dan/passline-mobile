@@ -7,6 +7,24 @@ abstract class AddEditEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class NameChanged extends AddEditEvent {
+  const NameChanged({@required this.name});
+
+  final String name;
+
+  @override
+  List<Object> get props => [name];
+}
+
+class UsernameChanged extends AddEditEvent {
+  const UsernameChanged({@required this.username});
+
+  final String username;
+
+  @override
+  List<Object> get props => [username];
+}
+
 class PasswordLengthChanged extends AddEditEvent {
   const PasswordLengthChanged({@required this.length});
 

@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
-
 class PwGen {
   static String generate(int length, bool symb, bool numb, bool charac) {
     List<String> lowercase = [

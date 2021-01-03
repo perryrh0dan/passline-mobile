@@ -15,12 +15,6 @@ class ItemPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(name),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: BlocProvider<ItemBloc>(
         create: (context) {
