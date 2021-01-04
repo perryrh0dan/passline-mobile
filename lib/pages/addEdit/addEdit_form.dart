@@ -29,15 +29,17 @@ class AddEditForm extends StatelessWidget {
             child: Form(
               child: ListView(
                 children: [
-                  TextField(
+                  TextFormField(
+                    initialValue: state.name,
                     autofocus: !isEditing,
-                    style: textTheme.headline5,
+                    style: textTheme.bodyText1,
                     onChanged: (value) => BlocProvider.of<AddEditBloc>(context)
                         .add(NameChanged(name: value)),
                   ),
-                  TextField(
+                  TextFormField(
+                    initialValue: state.username,
                     autofocus: !isEditing,
-                    style: textTheme.headline5,
+                    style: textTheme.bodyText1,
                     onChanged: (value) => BlocProvider.of<AddEditBloc>(context)
                         .add(UsernameChanged(username: value)),
                   ),
