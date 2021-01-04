@@ -4,7 +4,7 @@ description: Passline mobile client.
 version: 0.2.0
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 flutter:
   uses-material-design: true
@@ -18,8 +18,8 @@ dependencies:
     path: user_repository
   firebase_core: ^0.5.0
   cupertino_icons: ^0.1.2
-  flutter_bloc: ^6.0.0
-  equatable: ^1.2.0
+  flutter_bloc: ^6.1.0
+  equatable: ^1.2.5
   password_hash: ^2.0.0
   cryptography: ^1.4.1
   local_auth: ^0.6.2+3

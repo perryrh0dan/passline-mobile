@@ -60,7 +60,7 @@ class Crypt {
     password.addAll(encryptedText);
 
     // base64 encode encryptedText
-    return base64.encode(password);
+    return base64UrlEncode(password);
   }
 
   static Future<String> decryptCredentials(

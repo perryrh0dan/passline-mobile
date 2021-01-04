@@ -1,35 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:passline_mobile/pages/credential/credentials.dart';
-import 'package:passline_mobile/pages/item/bloc/item_bloc.dart';
 
 class ItemPage extends StatelessWidget {
-  final String name;
+  final Item item;
 
-  const ItemPage({Key key, this.name}) : super(key: key);
+  const ItemPage({Key key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(name),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: BlocProvider<ItemBloc>(
-        create: (context) {
-          return ItemBloc(
-            itemsRepository: FirebaseItemsRepository(),
-          )..add(LoadItem(name));
-        },
-        child: Credentials(name: name),
-      ),
-    );
+        appBar: AppBar(
+          title: Text(item.name),
+        ),
+        body: Credentials(item: item, credentials: item.credentials));
   }
 }

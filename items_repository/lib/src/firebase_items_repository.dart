@@ -8,24 +8,22 @@ class FirebaseItemsRepository implements ItemsRepository {
   final itemCollection = FirebaseFirestore.instance.collection('passline');
 
   Future<void> addItem(Item item) async {
-    var snapshot = await itemCollection.document(item.name).get();
+    var snapshot = await itemCollection.doc(item.name).get();
     if (snapshot.exists) {
       var existingItem = Item.fromEntity(ItemEntity.fromSnapshot(snapshot));
       existingItem.credentials.add(item.credentials[0]);
       return itemCollection
-          .document(item.name)
-          .setData(existingItem.toEntity().toDocument());
+          .doc(item.name)
+          .set(existingItem.toEntity().toDocument());
     } else {
-      return itemCollection
-          .document(item.name)
-          .setData(item.toEntity().toDocument());
+      return itemCollection.doc(item.name).set(item.toEntity().toDocument());
     }
   }
 
   @override
   Stream<List<Item>> items() {
     return itemCollection.snapshots().map((snapshot) {
-      return snapshot.documents
+      return snapshot.docs
           .map((doc) => Item.fromEntity(ItemEntity.fromSnapshot(doc)))
           .toList();
     });
@@ -33,7 +31,7 @@ class FirebaseItemsRepository implements ItemsRepository {
 
   @override
   Stream<Item> item(String name) {
-    return itemCollection.document(name).snapshots().map((snapshot) {
+    return itemCollection.doc(name).snapshots().map((snapshot) {
       return Item.fromEntity(ItemEntity.fromSnapshot(snapshot));
     });
   }

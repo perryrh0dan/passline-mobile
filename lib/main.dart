@@ -30,81 +30,101 @@ class SimpleBlocDelegate extends BlocObserver {
   }
 }
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // TODO check if async main is okay
-  await Firebase.initializeApp();
-
   Bloc.observer = SimpleBlocDelegate();
-  final userRepository = FirebaseUserRepository();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthenticationBloc>(
-          create: (context) {
-            return AuthenticationBloc(userRepository: userRepository)
-              ..add(AuthenticationStarted());
-          },
-        ),
-        BlocProvider<ThemeBloc>(
-          create: (context) {
-            return ThemeBloc()..add(ThemeStarted());
-          },
-        ),
-        BlocProvider<SettingsBloc>(
-          create: (context) {
-            return SettingsBloc()..add(LoadSettings());
-          },
-        )
-      ],
-      child: App(userRepository: userRepository),
-    ),
-  );
+
+  runApp(App());
 }
 
 class App extends StatelessWidget {
-  final UserRepository userRepository;
-
-  const App({Key key, @required this.userRepository}) : super(key: key);
+  App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
-      return _buildWithTheme(context, state);
-    });
-  }
-
-  Widget _buildWithTheme(BuildContext context, ThemeState state) {
-    return MaterialApp(
-      title: 'Passline',
-      theme: state.themeData,
-      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          return _buildWithAuthentication(context, state);
-        },
-      ),
+    return BlocProvider<ThemeBloc>(
+      create: (context) {
+        return ThemeBloc()..add(ThemeStarted());
+      },
+      child: Passline(),
     );
   }
+}
 
-  Widget _buildWithAuthentication(
-      BuildContext context, AuthenticationState state) {
-    if (state is Authenticated) {
-      return HomePage(
-        userRepository: userRepository,
-      );
-    } else if (state is Registered) {
-      return LoginPage(
-        userRepository: userRepository,
-      );
-    } else if (state is NotRegistered) {
-      return RegistrationPage(
-        userRepository: userRepository,
-      );
-    } else {
-      return Scaffold(
-        body: LoadingIndicator(),
-      );
-    }
+class Passline extends StatelessWidget {
+  final options = FirebaseOptions(
+    apiKey: "AIzaSyBCVckhzRrmyskxsRIHv7M9e7zOvt53N6c",
+    appId: "1:386145949994:android:5ce085e3a3225e6922e653",
+    messagingSenderId: 'passline-mobile',
+    projectId: "paine-3ab6f",
+  );
+
+  Passline({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          builder: (context, widget) {
+            return FutureBuilder(
+              future: Firebase.initializeApp(options: options),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  final userRepository = FirebaseUserRepository();
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider<AuthenticationBloc>(
+                        create: (context) =>
+                            AuthenticationBloc(userRepository: userRepository)
+                              ..add(
+                                AuthenticationStarted(),
+                              ),
+                      ),
+                      BlocProvider<SettingsBloc>(
+                        create: (context) => SettingsBloc()
+                          ..add(
+                            LoadSettings(),
+                          ),
+                      ),
+                    ],
+                    child: widget,
+                  );
+                }
+
+                // Otherwise, show something whilst waiting for initialization to complete
+                return Scaffold(
+                  body: LoadingIndicator(),
+                );
+              },
+            );
+          },
+          title: 'Passline',
+          theme: state.themeData,
+          home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              if (state is Authenticated) {
+                return HomePage(
+                  userRepository: FirebaseUserRepository(),
+                );
+              } else if (state is Registered) {
+                return LoginPage(
+                  userRepository: FirebaseUserRepository(),
+                );
+              } else if (state is NotRegistered) {
+                return RegistrationPage(
+                  userRepository: FirebaseUserRepository(),
+                );
+              } else {
+                return Scaffold(
+                  body: LoadingIndicator(),
+                );
+              }
+            },
+          ),
+        );
+      },
+    );
   }
 }
