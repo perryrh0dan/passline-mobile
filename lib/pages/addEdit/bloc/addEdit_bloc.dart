@@ -27,11 +27,17 @@ class AddEditBloc extends Bloc<AddEditEvent, AddEditState> {
     } else if (event is PasswordLengthChanged) {
       yield state.copyWith(length: event.length);
     } else if (event is CharactersSetChanged) {
-      yield state.copyWith(characters: event.characters);
+      if (state.numbers || state.symbols) {
+        yield state.copyWith(characters: event.characters);
+      }
     } else if (event is NumbersSetChanged) {
-      yield state.copyWith(numbers: event.numbers);
+      if (state.characters || state.symbols) {
+        yield state.copyWith(numbers: event.numbers);
+      }
     } else if (event is SymbolsSetChanged) {
-      yield state.copyWith(symbols: event.symbols);
+      if (state.characters || state.numbers) {
+        yield state.copyWith(symbols: event.symbols);
+      }
     }
   }
 }

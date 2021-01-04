@@ -25,73 +25,127 @@ class AddEditForm extends StatelessWidget {
             ),
           ),
           body: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(0.0),
             child: Form(
               child: ListView(
                 children: [
-                  TextFormField(
-                    initialValue: state.name,
-                    autofocus: !isEditing,
-                    style: textTheme.bodyText1,
-                    onChanged: (value) => BlocProvider.of<AddEditBloc>(context)
-                        .add(NameChanged(name: value)),
-                  ),
-                  TextFormField(
-                    initialValue: state.username,
-                    autofocus: !isEditing,
-                    style: textTheme.bodyText1,
-                    onChanged: (value) => BlocProvider.of<AddEditBloc>(context)
-                        .add(UsernameChanged(username: value)),
-                  ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  Container(),
-                  CheckboxListTile(
-                      title: Text("Use characters"),
-                      value: state.characters,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+                    child: TextFormField(
+                      initialValue: state.name,
+                      autofocus: !isEditing,
+                      style: textTheme.bodyText2,
+                      decoration: InputDecoration(
+                        hintText: 'Enter the website name',
+                      ),
                       onChanged: (value) =>
-                          BlocProvider.of<AddEditBloc>(context)
-                              .add(CharactersSetChanged(characters: value))),
-                  CheckboxListTile(
-                      title: Text("Use numbers"),
-                      value: state.numbers,
-                      onChanged: (value) =>
-                          BlocProvider.of<AddEditBloc>(context)
-                              .add(NumbersSetChanged(numbers: value))),
-                  CheckboxListTile(
-                      title: Text("Use symbols"),
-                      value: state.symbols,
-                      onChanged: (value) =>
-                          BlocProvider.of<AddEditBloc>(context)
-                              .add(SymbolsSetChanged(symbols: value))),
-                  Text("Password length"),
-                  Slider(
-                    label: "${state.length}",
-                    value: state.length.toDouble(),
-                    min: 6,
-                    max: 30,
-                    divisions: 24,
-                    onChanged: (value) => BlocProvider.of<AddEditBloc>(context)
-                        .add(PasswordLengthChanged(length: value.toInt())),
-                  ),
-                  Text("Password preview"),
-                  new Container(
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      border: new Border.all(
-                        color: Colors.black,
-                        width: 1.0,
+                          BlocProvider.of<AddEditBloc>(context).add(
+                        NameChanged(name: value),
                       ),
                     ),
-                    child: new TextField(
-                      readOnly: true,
-                      textAlign: TextAlign.center,
-                      decoration: new InputDecoration(
-                        hintText: state.password,
-                        border: InputBorder.none,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+                    child: TextFormField(
+                      initialValue: state.username,
+                      autofocus: !isEditing,
+                      style: textTheme.bodyText2,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your username',
                       ),
+                      onChanged: (value) =>
+                          BlocProvider.of<AddEditBloc>(context).add(
+                        UsernameChanged(username: value),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CheckboxListTile(
+                    title: Text("Use characters"),
+                    value: state.characters,
+                    onChanged: (value) =>
+                        BlocProvider.of<AddEditBloc>(context).add(
+                      CharactersSetChanged(characters: value),
+                    ),
+                  ),
+                  CheckboxListTile(
+                    title: Text("Use numbers"),
+                    value: state.numbers,
+                    onChanged: (value) =>
+                        BlocProvider.of<AddEditBloc>(context).add(
+                      NumbersSetChanged(numbers: value),
+                    ),
+                  ),
+                  CheckboxListTile(
+                    title: Text("Use symbols"),
+                    value: state.symbols,
+                    onChanged: (value) =>
+                        BlocProvider.of<AddEditBloc>(context).add(
+                      SymbolsSetChanged(symbols: value),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Password length",
+                          style: textTheme.subtitle1,
+                        ),
+                        Slider(
+                          label: "${state.length}",
+                          value: state.length.toDouble(),
+                          min: 6,
+                          max: 30,
+                          divisions: 24,
+                          onChanged: (value) =>
+                              BlocProvider.of<AddEditBloc>(context).add(
+                            PasswordLengthChanged(
+                              length: value.toInt(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16.0, 16.0, 0, 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Password preview",
+                          style: textTheme.subtitle1,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        new Container(
+                          decoration: new BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            border: new Border.all(
+                              color: Colors.black,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: new TextField(
+                            readOnly: true,
+                            textAlign: TextAlign.center,
+                            decoration: new InputDecoration(
+                              hintText: state.password,
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
