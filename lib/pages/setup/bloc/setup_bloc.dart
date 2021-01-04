@@ -12,7 +12,8 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final UserRepository userRepository;
   final HomeBloc homeBloc;
 
-  SetupBloc({@required this.userRepository, @required this.homeBloc}) : super(SetupInitial());
+  SetupBloc({@required this.userRepository, @required this.homeBloc})
+      : super(SetupInitial());
 
   @override
   Stream<SetupState> mapEventToState(SetupEvent event) async* {
