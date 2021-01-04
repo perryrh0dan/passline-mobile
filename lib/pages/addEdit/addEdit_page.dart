@@ -22,8 +22,8 @@ class AddEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddEditBloc(
-          name: this.item?.name, username: this.credential?.username),
+      create: (_) =>
+          AddEditBloc(name: item?.name, username: credential?.username),
       child: AddEditForm(
         isEditing: isEditing,
         onSave: onSave,

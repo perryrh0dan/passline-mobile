@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:passline_mobile/common/common.dart';
-import 'package:passline_mobile/pages/home/bloc/home_bloc.dart';
 import 'package:passline_mobile/pages/home/home_page.dart';
 import 'package:passline_mobile/pages/login/login_page.dart';
 import 'package:passline_mobile/pages/registration/registration_page.dart';

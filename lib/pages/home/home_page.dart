@@ -110,11 +110,11 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
                     ItemSearch(homeBloc: BlocProvider.of<HomeBloc>(context)));
             if (item != null && item.credentials.length == 1) {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) =>
-                      CredentialPage(credential: item.credentials[0])));
+                  builder: (_) => CredentialPage(
+                      item: item, credential: item.credentials[0])));
             } else if (item != null) {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => ItemPage(name: item.name)));
+                  MaterialPageRoute(builder: (_) => ItemPage(item: item)));
             }
           },
         )
@@ -137,11 +137,11 @@ class _HomeState extends State<HomePage> with WidgetsBindingObserver {
               onTap: () async {
                 if (item.credentials.length == 1) {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) =>
-                          CredentialPage(credential: item.credentials[0])));
+                      builder: (_) => CredentialPage(
+                          item: item, credential: item.credentials[0])));
                 } else {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => ItemPage(name: item.name)));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => ItemPage(item: item)));
                 }
               },
             );

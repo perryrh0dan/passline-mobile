@@ -6,13 +6,14 @@ import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:passline_mobile/crypt/crypt.dart';
 import 'package:passline_mobile/pages/addEdit/addEdit_page.dart';
 import 'package:passline_mobile/pages/credential/bloc/credential_bloc.dart';
-import 'package:passline_mobile/pages/item/bloc/item_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 class CredentialPage extends StatelessWidget {
+  final Item item;
   final Credential credential;
 
-  CredentialPage({Key key, @required this.credential}) : super(key: key);
+  CredentialPage({Key key, @required this.item, @required this.credential})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,17 @@ class CredentialPage extends StatelessWidget {
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => AddEditPage(
+                            isEditing: true,
+                            onSave: (name, username, password) async {},
+                            item: item,
+                            credential: this.credential),
+                      ),
+                    ),
+                  },
                 ),
               ],
             ),
