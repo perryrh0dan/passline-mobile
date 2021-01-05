@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passline_mobile/authentication/authentication_bloc.dart';
 import 'package:passline_mobile/common/common.dart';
+import 'package:passline_mobile/options.dart';
 import 'package:passline_mobile/pages/home/home_page.dart';
 import 'package:passline_mobile/pages/login/login_page.dart';
 import 'package:passline_mobile/pages/registration/registration_page.dart';
@@ -53,14 +54,8 @@ class App extends StatelessWidget {
 }
 
 class Passline extends StatelessWidget {
-  final options = FirebaseOptions(
-    apiKey: "AIzaSyBCVckhzRrmyskxsRIHv7M9e7zOvt53N6c",
-    appId: "1:386145949994:android:5ce085e3a3225e6922e653",
-    messagingSenderId: 'passline-mobile',
-    projectId: "paine-3ab6f",
-  );
-
-  Passline({Key key}) : super(key: key);
+  final Future<FirebaseApp> _initialization =
+      Firebase.initializeApp(options: options);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +64,8 @@ class Passline extends StatelessWidget {
         return MaterialApp(
           builder: (context, widget) {
             return FutureBuilder(
-              future: Firebase.initializeApp(options: options),
+              //
+              future: _initialization,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final userRepository = FirebaseUserRepository();
@@ -94,9 +90,7 @@ class Passline extends StatelessWidget {
                 }
 
                 // Otherwise, show something whilst waiting for initialization to complete
-                return Scaffold(
-                  body: LoadingIndicator(),
-                );
+                return Scaffold();
               },
             );
           },
